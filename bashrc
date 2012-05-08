@@ -231,48 +231,50 @@ function dual-off
 function _____dir__update__bashrc_
 {
 if [ "$USER" = 'root' ]; then
-    if [ "$TERM" = "linux" ]; then
-	if [[ $termdir = 1 ]]; then
-	    PS1='\[\033[0;34;1m\]\u\[\033[m\]@\[\033[31m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[0;31m\]\$\[\033[0m\] '
-	else
-	    PS1='\[\033[0;34;1m\]\u\[\033[m\]@\[\033[31m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[0;31m\]\$\[\033[0m\] '
-	fi
+  if [ "$TERM" = "linux" ]; then
+    if [[ $termdir = 1 ]]; then
+      PS1='\[\033[0;34;1m\]\u\[\033[m\]@\[\033[31m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[0;31m\]'
     else
-	if [[ $termdir = 1 ]]; then
-	    PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[31m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[0;31m\]\$\[\033[0m\] '
-	else
-	    PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[31m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[0;31m\]\$\[\033[0m\] '
-	fi
+      PS1='\[\033[0;34;1m\]\u\[\033[m\]@\[\033[31m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[0;31m\]'
     fi
+  else
+    if [[ $termdir = 1 ]]; then
+      PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[31m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[0;31m\]'
+    else
+      PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[31m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[0;31m\]'
+    fi
+  fi
 elif [ "$USER" = 'nobody' ]; then
-    if [ "$TERM" = "linux" ]; then
-	if [[ $termdir = 1 ]]; then
-	    PS1='\[\033[0;34;1m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[0;32m\]\$\[\033[0m\] '
-	else
-	    PS1='\[\033[0;34;1m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[0;32m\]\$\[\033[0m\] '
-	fi
+  if [ "$TERM" = "linux" ]; then
+    if [[ $termdir = 1 ]]; then
+      PS1='\[\033[0;34;1m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[0;32m\]'
     else
-	if [[ $termdir = 1 ]]; then
-	    PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[0;32m\]\$\[\033[0m\] '
-	else
-	    PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[0;32m\]\$\[\033[0m\] '
-	fi
+      PS1='\[\033[0;34;1m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[0;32m\]'
     fi
+  else
+    if [[ $termdir = 1 ]]; then
+      PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[0;32m\]'
+    else
+      PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[0;32m\]'
+    fi
+  fi
 else
-    if [ "$TERM" = "linux" ]; then
-	if [[ $termdir = 1 ]]; then
-	    PS1='\[\033[0;34;1m\]\u\[\033[m\]@\[\033[34m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[34;1m\]\$\[\033[0m\] '
-	else
-	    PS1='\[\033[0;34;1m\]\u\[\033[m\]@\[\033[34m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[34;1m\]\$\[\033[0m\] '
-	fi
+  if [ "$TERM" = "linux" ]; then
+    if [[ $termdir = 1 ]]; then
+      PS1='\[\033[0;34;1m\]\u\[\033[m\]@\[\033[34m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[34;1m\]'
     else
-	if [[ $termdir = 1 ]]; then
-	    PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[34m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[34;1m\]\$\[\033[0m\] '
-	else
-	    PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[34m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[34;1m\]\$\[\033[0m\] '
-	fi
+      PS1='\[\033[0;34;1m\]\u\[\033[m\]@\[\033[34m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[34;1m\]'
     fi
+  else
+    if [[ $termdir = 1 ]]; then
+      PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[34m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[34;1m\]'
+    else
+      PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[34m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[34;1m\]'
+    fi
+  fi
 fi
+
+PS1="$PS1\$\[\033[0m\] "
 }
 
 _____dir__update__bashrc_
@@ -301,7 +303,7 @@ shopt -s checkwinsize
 
 
 #######################################################################################################
-##  Release unification and bug workarounds
+##  Release unification and bug and functionallity workarounds
 #######################################################################################################
 
 #Release unification and bug workaround for VLC
@@ -317,6 +319,20 @@ fi
 
 alias mplayer="mplayer -softvol -msgcolor"
 alias nplayer="mplayer -softvol -novideo"
+
+if [ "$TERM" = "linux" ]; then
+    function ponysay
+    {
+	exec ponysay $@
+	palette-reset
+    }
+    function unisay
+    {
+	exec unisay $@
+	palette-reset
+    }
+fi
+
 
 #######################################################################################################
 ##  Handy commands
@@ -372,19 +388,6 @@ function zu
     su "$@" || zu "$@"
 }
 
-if [ "$TERM" = "linux" ]; then
-    function ponysay
-    {
-	exec ponysay $@
-	palette-reset
-    }
-    function unisay
-    {
-	exec unisay $@
-	palette-reset
-    }
-fi
-
 alias pac-lis="sudo pacman -Qi | grep Licences | tsort 2> /dev/null | distinct : Licenses | sort"
 
 alias rebash="source ~/.bashrc"
@@ -396,6 +399,17 @@ alias i0="sudo init 0"
 alias lesser="less -r"
 
 alias VIRTUALBOX="sudo modprobe vboxdrv"
+
+
+swd="${HOME}"
+function swd
+{
+    swd=`pwd`
+}
+function rwd
+{
+    cd $swd
+}
 
 
 #######################################################################################################
