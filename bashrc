@@ -323,12 +323,12 @@ alias nplayer="mplayer -softvol -novideo"
 if [ "$TERM" = "linux" ]; then
     function ponysay
     {
-	exec ponysay $@
+	/usr/bin/ponysay $@
 	palette-reset
     }
     function unisay
     {
-	exec unisay $@
+	/usr/bin/unisay $@
 	palette-reset
     }
 fi
@@ -418,7 +418,7 @@ function rwd
 
 alias gitpu="git push -u origin"
 
-alias gitpush="git push -u origin master"
+alias gitpushma="git push -u origin master"
 
 alias gitpushgh="git push -u origin gh-pages"
 
@@ -426,6 +426,20 @@ alias gitpushdv="git push -u origin develop"
 
 alias gitcom="git commit -m"
 
+
+function _____gp___bashrc_
+{
+    echo "$2"
+}
+function _____gp__bashrc_
+{
+    _____gp___bashrc_ `git status -b -s 2>/dev/null`
+}
+
+function gitpush
+{
+    echo `_____gp__bashrc_ | cut -d . -f 1`
+}
 
 #######################################################################################################
 ##  Package management
