@@ -18,8 +18,17 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
+if [ -d ~/.local/bash_completion.d ] && ! shopt -oq posix; then
+    completionscripts=( ~/.local/bash_completion.d/"*" )
+    for completionscript in $completionscripts; do
+	. $completionscript
+    done
+fi
 
-. /etc/bash_opt
+
+if [ -f /etc/bash_opt ]; then
+    . /etc/bash_opt
+fi
 
 
 #######################################################################################################
@@ -438,7 +447,7 @@ function _____gp__bashrc_
 
 function gitpush
 {
-    echo `_____gp__bashrc_ | cut -d . -f 1`
+    git push -u origin `_____gp__bashrc_ | cut -d . -f 1`
 }
 
 #######################################################################################################
