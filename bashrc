@@ -25,7 +25,6 @@ if [ -d ~/.local/bash_completion.d ] && ! shopt -oq posix; then
     for completionscript in $completionscripts; do
 	. $completionscript
     done
-    read
 fi
 
 
