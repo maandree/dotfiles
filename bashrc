@@ -23,7 +23,6 @@ if [ -d ~/.local/bash_completion.d ] && ! shopt -oq posix; then
     rm ~/.local/bash_completion.d/#*# 2>/dev/null
     completionscripts=( ~/.local/bash_completion.d/"*" )
     for completionscript in $completionscripts; do
-	echo $completionscript
 	. $completionscript
     done
     read
