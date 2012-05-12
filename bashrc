@@ -413,6 +413,7 @@ alias VIRTUALBOX="sudo modprobe vboxdrv"
 
 
 swd="${HOME}"
+swd2="${HOME}"
 function swd
 {
     swd=`pwd`
@@ -420,6 +421,14 @@ function swd
 function rwd
 {
     cd $swd
+}
+function swd2
+{
+    swd2=`pwd`
+}
+function rwd2
+{
+    cd $swd2
 }
 
 
