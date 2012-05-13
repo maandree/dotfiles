@@ -216,7 +216,7 @@ function dir-off
     ____window__update__bashrc_
 }
 
-termdual=0
+termdual=1
 
 function ___d_brc_
 {
@@ -577,3 +577,6 @@ alias sshcsc-s="ssh -XC maandree@s-shell.csc.kth.se"
 
 alias gitpushme="git push -u origin maandree"
 alias cdgit="cd ~/git"
+alias build=". build.sh"
+alias clean=". clean.sh"
+alias run=". run.sh"
