@@ -464,8 +464,8 @@ function gitpush
 
 function gemacs
 {
-    nemacs $@
-    git add $@
+    nemacs "$@"
+    git add "$@"
 }
 
 
