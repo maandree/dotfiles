@@ -468,6 +468,12 @@ function gemacs
     git add "$@"
 }
 
+function gitcheckout
+{
+    git checkout "$@"
+    cd .
+}
+
 
 #######################################################################################################
 ##  Package management
