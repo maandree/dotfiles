@@ -457,9 +457,14 @@ function _____gp__bashrc_
     _____gp___bashrc_ `git status -b -s 2>/dev/null`
 }
 
+function ___git_branch_
+{
+    echo `_____gp__bashrc_ | cut -d . -f 1`
+}
+
 function gitpush
 {
-    git push -u origin `_____gp__bashrc_ | cut -d . -f 1`
+    git push -u origin `___git_branch_`
 }
 
 function gemacs
@@ -472,6 +477,15 @@ function gitcheckout
 {
     git checkout "$@"
     cd .
+}
+
+function gitpull
+{
+    __gb_=`___git_branch_`
+    git checkout "$1"
+    git pull
+    git checkout $__gb_
+    git pull . "$1"
 }
 
 
