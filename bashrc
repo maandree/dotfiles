@@ -438,15 +438,7 @@ function rwd2
 #######################################################################################################
 
 alias gitpu="git push -u origin"
-
-alias gitpushma="git push -u origin master"
-
-alias gitpushgh="git push -u origin gh-pages"
-
-alias gitpushdv="git push -u origin develop"
-
 alias gitcom="git commit -m"
-
 
 function _____gp___bashrc_
 {
@@ -456,7 +448,6 @@ function _____gp__bashrc_
 {
     _____gp___bashrc_ `git status -b -s 2>/dev/null`
 }
-
 function ___git_branch_
 {
     echo `_____gp__bashrc_ | cut -d . -f 1`
@@ -486,6 +477,13 @@ function gitpull
     git pull
     git checkout $__gb_
     git pull . "$1"
+}
+
+function gittag
+{
+    git tag -a "$@"
+    git checkout "$1"
+    git push -u origin "$1"
 }
 
 
@@ -603,7 +601,6 @@ alias sshcsc="ssh -XC maandree@u-shell.csc.kth.se"
 alias sshcsc-u="ssh -XC maandree@u-shell.csc.kth.se"
 alias sshcsc-s="ssh -XC maandree@s-shell.csc.kth.se"
 
-alias gitpushme="git push -u origin maandree"
 alias cdgit="cd ~/git"
 alias build=". build.sh"
 alias clean=". clean.sh"
