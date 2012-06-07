@@ -364,11 +364,14 @@ function blackcat
     echo -en '\e[0m'
 }
 
-# emacs fitted for terminals (actually, no effect in Linux VT)
+# emacs fitted for terminals
 if [ "$TERM" = "linux" ]; then
+    xem=0
     function nemacs
     {
-	TERM='xterm'
+	if [ "$xem" = '1' ]; then
+	    TERM='xterm'
+	fi
 	emacs -nw "$@"
 	TERM='linux'
     }
