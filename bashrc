@@ -368,7 +368,9 @@ function blackcat
 if [ "$TERM" = "linux" ]; then
     function nemacs
     {
+	TERM='xterm'
 	emacs -nw "$@"
+	TERM='linux'
     }
 else
     function nemacs
