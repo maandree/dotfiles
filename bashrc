@@ -546,15 +546,20 @@ export LOCALE="en_GB.UTF-8"
 export LC_ALL="en_GB.UTF-8"
 export LANG="en_GB.UTF-8"
 
-etty
-#term
-dt
-if [ "$TERM" = "linux" ]; then
-    fortune | unisay -p linux-vt -P
+if [ "$TERM" = "dumb" ]; then
+    dt
+    clock on
 else
-    fortune | unisay -p unicode -P
+    etty
+    #term
+    dt
+    if [ "$TERM" = "linux" ]; then
+	fortune | unisay -p linux-vt -P
+    else
+	fortune | unisay -p unicode -P
+    fi
 fi
-
+    
 export EDITOR="emacs -nw"
 
 
