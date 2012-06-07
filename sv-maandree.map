@@ -1,11 +1,28 @@
 charset "iso-8859-1"
-keymaps 0-2,4-6,8,12
+keymaps 0-6,8-14
 include "qwerty-layout"
 include "linux-with-alt-and-altgr"
 	plain keycode  83 = KP_Comma
 strings as usual
 
-keymaps 5,9,10,11,13,14
+
+shift keycode 103 = F103
+shift keycode 108 = F108
+shift keycode 106 = F106
+shift keycode 105 = F105
+string F103 = "\033[1;2A"
+string F108 = "\033[1;2B"
+string F106 = "\033[1;2C"
+string F105 = "\033[1;2D"
+
+control keycode 103 = F113
+control keycode 108 = F118
+control keycode 106 = F116
+control keycode 105 = F115
+string F113 = "\033[1;5A"
+string F118 = "\033[1;5B"
+string F116 = "\033[1;5C"
+string F115 = "\033[1;5D"
 
 alt shift keycode  59 = Console_13
 alt shift keycode  60 = Console_14
@@ -174,4 +191,3 @@ keycode  86 = less             greater          bar
 	alt     keycode  86 = Meta_less
 
 keycode  97 = Control
-
