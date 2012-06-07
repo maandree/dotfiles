@@ -24,6 +24,15 @@ string F118 = "\033[1;5B"
 string F116 = "\033[1;5C"
 string F115 = "\033[1;5D"
 
+control shift keycode 103 = F123
+control shift keycode 108 = F128
+control shift keycode 106 = F126
+control shift keycode 105 = F125
+string F123 = "\033[1;6A"
+string F128 = "\033[1;6B"
+string F126 = "\033[1;6C"
+string F125 = "\033[1;6D"
+
 alt shift keycode  59 = Console_13
 alt shift keycode  60 = Console_14
 alt shift keycode  61 = Console_15
