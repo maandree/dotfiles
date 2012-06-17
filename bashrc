@@ -235,7 +235,7 @@ termdual=1
 function ___d_brc_
 {
     if [[ $termdual = 1 ]]; then
-	echo '\033[C\033[D\n'
+	echo '\[\033[0m\033[C\033[D\]\n'
     fi
 }
 
@@ -598,17 +598,16 @@ else
     dt
     if [ "$TERM" = "linux" ]; then
 	fortune | unisay -p linux-vt -P
+	echo -en '\e[?8c'
     else
 	fortune | unisay -p unicode -P
+	if [[ ! -f "/dev/shm/.$DISPLAY" ]]; then
+	    setxkbmap 2>/dev/null >/dev/null
+	fi
     fi
-fi
-
-if [ "$TERM" = "linux" ]; then
-    echo -en '\e[?8c'
 fi
     
 export EDITOR="emacs -nw"
-#setxkbmap 2>/dev/null >/dev/null
 
 
 #################################################################################################
