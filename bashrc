@@ -608,7 +608,7 @@ if [ "$TERM" = "linux" ]; then
 fi
     
 export EDITOR="emacs -nw"
-setxkbmap 2>/dev/null >/dev/null
+#setxkbmap 2>/dev/null >/dev/null
 
 
 #################################################################################################
