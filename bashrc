@@ -235,7 +235,7 @@ termdual=1
 function ___d_brc_
 {
     if [[ $termdual = 1 ]]; then
-	echo '\n'
+	echo '\033[C\033[D\n'
     fi
 }
 
