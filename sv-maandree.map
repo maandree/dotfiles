@@ -6,6 +6,9 @@ include "linux-with-alt-and-altgr"
 strings as usual
 
 
+string Home = "\033OH"
+string End = "\033OF"
+
 shift keycode 103 = F103
 shift keycode 108 = F108
 shift keycode 106 = F106
@@ -32,6 +35,26 @@ string F123 = "\033[1;6A"
 string F128 = "\033[1;6B"
 string F126 = "\033[1;6C"
 string F125 = "\033[1;6D"
+
+alt shift keycode 106 = F156
+alt shift keycode 105 = F155
+control alt keycode 106 = F156
+control alt keycode 105 = F155
+string F156 = "\030\033[C"
+string F155 = "\030\033[D"
+
+altgr keycode 106 = F136
+altgr keycode 105 = F135
+keycode 127 = F136
+keycode 126 = F135
+string F136 = "\033OF"
+string F135 = "\033OH"
+alt keycode 127 = F146
+alt keycode 126 = F145
+string F146 = "\033[4~"
+string F145 = "\033[1~"
+
+shift keycode 125 = Compose
 
 alt shift keycode  59 = Console_13
 alt shift keycode  60 = Console_14
