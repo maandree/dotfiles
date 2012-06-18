@@ -363,6 +363,11 @@ fi
 ##  Handy commands
 #################################################################################################
 
+function unlock
+{
+    rm ~/."$1"/lock
+}
+
 # ls piped to less with colours
 function lss
 {
