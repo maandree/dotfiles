@@ -62,8 +62,8 @@ HISTFILESIZE=2000
 ##  Display style
 #################################################################################################
 
-# make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+## make less more friendly for non-text input files, see lesspipe(1)  ## bullshit
+#[ -x /usr/bin/lesspipe.sh ] && eval "$(SHELL=/bin/sh /usr/bin/lesspipe.sh)"
 
 # we want colours
 force_color_prompt=yes
@@ -258,9 +258,9 @@ function _____dir__update__bashrc_
   if [ "$USER" = 'root' ]; then
     if [ "$TERM" = "linux" ]; then
       if [[ $termdir = 1 ]]; then
-        PS1='\[\033[0;34;1m\]\u\[\033[m\]@\[\033[31m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[0;31m\]'
+        PS1='\[\033[?8c\033[0;34;1m\]\u\[\033[m\]@\[\033[31m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[0;31m\]'
       else
-        PS1='\[\033[0;34;1m\]\u\[\033[m\]@\[\033[31m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[0;31m\]'
+        PS1='\[\033[?8c\033[0;34;1m\]\u\[\033[m\]@\[\033[31m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[0;31m\]'
       fi
     else
       if [[ $termdir = 1 ]]; then
@@ -272,9 +272,9 @@ function _____dir__update__bashrc_
   elif [ "$USER" = 'nobody' ]; then
     if [ "$TERM" = "linux" ]; then
       if [[ $termdir = 1 ]]; then
-        PS1='\[\033[0;34;1m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[0;32m\]'
+        PS1='\[\033[?8c\033[0;34;1m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[0;32m\]'
       else
-        PS1='\[\033[0;34;1m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[0;32m\]'
+        PS1='\[\033[?8c\033[0;34;1m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[0;32m\]'
       fi
     else
       if [[ $termdir = 1 ]]; then
@@ -286,9 +286,9 @@ function _____dir__update__bashrc_
   else
     if [ "$TERM" = "linux" ]; then
       if [[ $termdir = 1 ]]; then
-        PS1='\[\033[0;34;1m\]\u\[\033[m\]@\[\033[34m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[34;1m\]'
+        PS1='\[\033[?8c\033[0;34;1m\]\u\[\033[m\]@\[\033[34m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[34;1m\]'
       else
-        PS1='\[\033[0;34;1m\]\u\[\033[m\]@\[\033[34m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[34;1m\]'
+        PS1='\[\033[?8c\033[0;34;1m\]\u\[\033[m\]@\[\033[34m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[34;1m\]'
       fi
     else
       if [[ $termdir = 1 ]]; then
@@ -433,7 +433,7 @@ alias pac-lis="sudo pacman -Qi | grep Licences | tsort 2> /dev/null | distinct :
 
 alias rebash="source ~/.bashrc"
 
-alias edbash="emacs -nw ~/.bashrc"
+alias edbash="nemacs ~/.bashrc"
 
 alias i0="sudo init 0"
 
@@ -480,6 +480,21 @@ function purger
 {
     rm $(find . 2>/dev/null | grep '~$')       2>/dev/null
     rm $(find . 2>/dev/null | egrep '/(.|)#')  2>/dev/null
+}
+
+function burstgif
+{
+    for image in "$@"; do
+	convert -coalesce "$image" "$image".%d.gif
+    done
+}
+
+function burstgif-rm
+{
+    for image in "$@"; do
+	convert -coalesce "$image" "$image".%d.gif
+	rm "$image"
+    done
 }
 
 
@@ -534,6 +549,12 @@ function gittag
     git tag -a "$@"
     git checkout "$1"
     git push -u origin "$1"
+}
+
+function gitupdate
+{
+    git fetch upstream
+    git pull . upstream/`___git_branch_`
 }
 
 
@@ -607,11 +628,12 @@ else
     else
 	fortune | unisay -p unicode -P
 	if [[ ! -f "/dev/shm/.$DISPLAY" ]]; then
+	    touch "/dev/shm/.$DISPLAY"
 	    setxkbmap 2>/dev/null >/dev/null
 	fi
     fi
 fi
-    
+
 export EDITOR="emacs -nw"
 
 export LS_COLORS=\
