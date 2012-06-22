@@ -2,6 +2,8 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+PATH+=:$(echo ~)/.local/bin
+
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
@@ -15,31 +17,35 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 # enable programmable completion features,
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-    . /etc/bash_completion
-fi
-if [ -f /usr/share/bash-completion/bash_completion ] && ! shopt -oq posix; then
-    . /usr/share/bash-completion/bash_completion
-fi
-if [ -d ~/.local/bash_completion.d ] && ! shopt -oq posix; then
-    rm ~/.local/bash_completion.d/*~ 2>/dev/null
-    rm ~/.local/bash_completion.d/#*# 2>/dev/null
-    completionscripts=( ~/.local/bash_completion.d/"*" )
-    for completionscript in $completionscripts; do
-	. $completionscript
-    done
-fi
-if [ -d /usr/share/bash-completion/completions ] && ! shopt -oq posix; then
-    completionscripts=( /usr/share/bash-completion/completions/"*" )
-    for completionscript in $completionscripts; do
-	. $completionscript
-    done
-fi
+function recomplete()
+{
+    if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+	. /etc/bash_completion
+    fi
+    if [ -f /usr/share/bash-completion/bash_completion ] && ! shopt -oq posix; then
+	. /usr/share/bash-completion/bash_completion
+    fi
+    if [ -d ~/.local/bash_completion.d ] && ! shopt -oq posix; then
+	rm ~/.local/bash_completion.d/*~ 2>/dev/null
+	rm ~/.local/bash_completion.d/#*# 2>/dev/null
+	completionscripts=( ~/.local/bash_completion.d/"*" )
+	for completionscript in $completionscripts; do
+	    . $completionscript
+	done
+    fi
+    if [ -d /usr/share/bash-completion/completions ] && ! shopt -oq posix; then
+	completionscripts=( /usr/share/bash-completion/completions/"*" )
+	for completionscript in $completionscripts; do
+	    . $completionscript
+	done
+    fi
 
 
-if [ -f /etc/bash_opt ]; then
-    . /etc/bash_opt
-fi
+    if [ -f /etc/bash_opt ]; then
+	. /etc/bash_opt
+    fi
+}
+recomplete
 
 
 #################################################################################################
