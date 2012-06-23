@@ -93,7 +93,7 @@ fi
 #################################################################################################
 
 # inhibit starting an X session from another X session
-if [ "$TERM" == "dumb" ]; then
+if [ "$TERM" = "dumb" ]; then
     alias startx="echo -e '\e[1;31mDon not start an X session from a dumb terminal!\e[0m'"
     alias xinit="echo -e '\e[1;31mDon not start an X session from a dumb terminal!\e[0m'"
 elif [ "$TERM" != "linux" ]; then
