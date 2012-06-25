@@ -340,6 +340,7 @@ shopt -s checkwinsize
 if [ "$TERM" = "linux" ]; then
      function nvlc()
      {
+	 (sleep 0.5; palette-reset; sleep 0.5; palette-reset) &
 	 /usr/bin/nvlc --no-video "$@"
 	 palette-reset
      }
@@ -407,9 +408,17 @@ if [ "$TERM" = "linux" ]; then
 else
     function nemacs
     {
+	xhi=0
+	if [ "$TERM" = 'xterm-256color' ]; then
+	    xhi=1
+	    TERM='xterm'
+	fi
 	echo -en '\e]0;emacs: '"$1"'\a'
 	emacs -nw "$@"
 	echo -en '\e]0;\u@\h: \w  ||  `tty`\a'
+	if [ $xhi = 1 ]; then
+	    TERM='xterm-256color'
+	fi
     }
 fi
 
@@ -635,6 +644,11 @@ else
 	if [[ ! -f "/dev/shm/.$DISPLAY" ]]; then
 	    touch "/dev/shm/.$DISPLAY"
 	    setxkbmap 2>/dev/null >/dev/null
+	fi
+    fi
+    if [ "$TERM" = "xterm" ]; then
+	if [ "$COLORTERM" = "mate-terminal" ]; then
+	    TERM=xterm-256color
 	fi
     fi
 fi
