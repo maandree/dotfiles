@@ -119,45 +119,90 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 
 #################################################################################################
+##  xterm colour palettes
+#################################################################################################
+
+if [ "$TERM" = "xterm" ] || [ "$TERM" = "xterm-256color" ]; then
+    alias   linuxColours='echo -en '\''\e]4;0;rgb:00/00/00\e\\\e]4;1;rgb:AA/00/00\e\\\e]4;2;rgb:00/AA/00\e\\\e]4;3;rgb:AA/55/00\e\\\e]4;4;rgb:00/00/AA\e\\\e]4;5;rgb:AA/00/AA\e\\\e]4;6;rgb:00/AA/AA\e\\\e]4;7;rgb:AA/AA/AA\e\\\e]4;8;rgb:55/55/55\e\\\e]4;9;rgb:FF/55/55\e\\\e]4;10;rgb:55/FF/55\e\\\e]4;11;rgb:FF/FF/55\e\\\e]4;12;rgb:55/55/FF\e\\\e]4;13;rgb:FF/55/FF\e\\\e]4;14;rgb:55/FF/FF\e\\\e]4;15;rgb:FF/FF/FF\e\\'\'
+    alias   tangoColours='echo -en '\''\e]4;0;rgb:2E/34/36\e\\\e]4;1;rgb:CC/00/00\e\\\e]4;2;rgb:4E/9A/06\e\\\e]4;3;rgb:C4/A0/00\e\\\e]4;4;rgb:34/65/A4\e\\\e]4;5;rgb:75/50/7B\e\\\e]4;6;rgb:06/98/9A\e\\\e]4;7;rgb:D3/D7/CF\e\\\e]4;8;rgb:58/58/58\e\\\e]4;9;rgb:FF/55/55\e\\\e]4;10;rgb:55/FF/55\e\\\e]4;11;rgb:FF/FF/55\e\\\e]4;12;rgb:55/55/FF\e\\\e]4;13;rgb:FF/55/FF\e\\\e]4;14;rgb:55/FF/FF\e\\\e]4;15;rgb:FF/FF/FF\e\\'\'
+    alias tangoidColours='echo -en '\''\e]4;0;rgb:00/00/00\e\\\e]4;1;rgb:CC/00/00\e\\\e]4;2;rgb:4E/9A/06\e\\\e]4;3;rgb:C4/A0/00\e\\\e]4;4;rgb:34/65/A4\e\\\e]4;5;rgb:75/50/7B\e\\\e]4;6;rgb:06/98/9A\e\\\e]4;7;rgb:D3/D7/CF\e\\\e]4;8;rgb:58/58/58\e\\\e]4;9;rgb:FF/55/55\e\\\e]4;10;rgb:55/FF/55\e\\\e]4;11;rgb:FF/FF/55\e\\\e]4;12;rgb:55/55/FF\e\\\e]4;13;rgb:FF/25/5FF\e\\\e]4;14;rgb:55/FF/FF\e\\\e]4;15;rgb:FF/FF/FF\e\\'\'
+    alias  cobaltColours='echo -en '\''\e]4;0;rgb:02/08/40\e\\\e]4;1;rgb:CC/00/00\e\\\e]4;2;rgb:4E/9A/06\e\\\e]4;3;rgb:C4/A0/00\e\\\e]4;4;rgb:34/657A4\e\\\e]4;5;rgb:75/50/7B\e\\\e]4;6;rgb:06/98/9A\e\\\e]4;7;rgb:D3/D7/CF\e\\\e]4;8;rgb:58/58/58\e\\\e]4;9;rgb:FF/55/55\e\\\e]4;10;rgb:55/FF/55\e\\\e]4;11;rgb:FF/FF/55\e\\\e]4;12;rgb:55/55/FF\e\\\e]4;13;rgb:FF/55/FF\e\\\e]4;14;rgb:55/FF/FF\e\\\e]4;15;rgb:FF/FF/FF\e\\'\'
+    alias  yellowColours='echo -en '\''\e]4;0;rgb:30/30/08\e\\\e]4;1;rgb:CC/00/00\e\\\e]4;2;rgb:4E/9A/06\e\\\e]4;3;rgb:C4/A0/00\e\\\e]4;4;rgb:34/65/A4\e\\\e]4;5;rgb:75/50/7B\e\\\e]4;6;rgb:06/98/9A\e\\\e]4;7;rgb:D3/D7/CF\e\\\e]4;8;rgb:58/58/58\e\\\e]4;9;rgb:FF/55/55\e\\\e]4;10;rgb:55/FF/55\e\\\e]4;11;rgb:FF/FF/55\e\\\e]4;12;rgb:55/55/FF\e\\\e]4;13;rgb:FF/55/FF\e\\\e]4;14;rgb:55/FF/FF\e\\\e]4;15;rgb:FF/FF/FF\e\\'\'
+    alias    rootColours='echo -en '\''\e]4;0;rgb:30/00/00\e\\\e]4;1;rgb:CD/65/6C\e\\\e]4;2;rgb:32/A6/79\e\\\e]4;3;rgb:CC/AD/47\e\\\e]4;4;rgb:24/95/BE\e\\\e]4;5;rgb:A4/6E/B0\e\\\e]4;6;rgb:00/A0/9F\e\\\e]4;7;rgb:D3/D7/CF\e\\\e]4;8;rgb:55/57/53\e\\\e]4;9;rgb:EB/5E/6A\e\\\e]4;10;rgb:0E/C2/87\e\\\e]4;11;rgb:F2/CA/38\e\\\e]4;12;rgb:00/AC/E0\e\\\e]4;13;rgb:C4/73/D1\e\\\e]4;14;rgb:00/C3/C7\e\\\e]4;15;rgb:EE/EE/EE\e\\'\'
+    alias     ncsColours='echo -en '\''\e]4;0;rgb:02/08/40\e\\\e]4;1;rgb:CD/65/6C\e\\\e]4;2;rgb:32/A6/79\e\\\e]4;3;rgb:CC/AD/47\e\\\e]4;4;rgb:24/95/BE\e\\\e]4;5;rgb:A4/6E/B0\e\\\e]4;6;rgb:00/A0/9F\e\\\e]4;7;rgb:D3/D7/CF\e\\\e]4;8;rgb:55/57/53\e\\\e]4;9;rgb:EB/5E76A\e\\\e]4;10;rgb:0E/C2/87\e\\\e]4;11;rgb:F2/CA/38\e\\\e]4;12;rgb:00/AC/E0\e\\\e]4;13;rgb:C4/73/D1\e\\\e]4;14;rgb:00/C3/C7\e\\\e]4;15;rgb:EE/EE/EE\e\\'\'
+    alias lightNcsColours='echo -en '\''\e]4;0;rgb:0C/14/58\e\\\e]4;1;rgb:CD/65/6C\e\\\e]4;2;rgb:32/A6/79\e\\\e]4;3;rgb:CC/AD/47\e\\\e]4;4;rgb:24/95/BE\e\\\e]4;5;rgb:A4/6E/B0\e\\\e]4;6;rgb:00/A0/9F\e\\\e]4;7;rgb:D3/D7/CF\e\\\e]4;8;rgb:55/57/53\e\\\e]4;9;rgb:EB/5E/6A\e\\\e]4;10;rgb:0E/C2/87\e\\\e]4;11;rgb:F2/CA/38\e\\\e]4;12;rgb:00/AC/E0\e\\\e]4;13;rgb:C4/73/D1\e\\\e]4;14;rgb:00/C3/C7\e\\\e]4;15;rgb:EE/EE/EE\e\\'\'
+    alias blackNcsColours='echo -en '\''\e]4;0;rgb:00/00/00\e\\\e]4;1;rgb:CD/65/6C\e\\\e]4;2;rgb:32/A6/79\e\\\e]4;3;rgb:CC/AD/47\e\\\e]4;4;rgb:24/95/BE\e\\\e]4;5;rgb:A4/6E/B0\e\\\e]4;6;rgb:00/A0/9F\e\\\e]4;7;rgb:D3/D7/CF\e\\\e]4;8;rgb:55/57/53\e\\\e]4;9;rgb:EB/5E/6A\e\\\e]4;10;rgb:0E/C2/87\e\\\e]4;11;rgb:F2/CA/38\e\\\e]4;12;rgb:00/AC/E0\e\\\e]4;13;rgb:C4/73/D1\e\\\e]4;14;rgb:00/C3/C7\e\\\e]4;15;rgb:EE/EE/EE\e\\'\'
+    
+    
+    
+    if [ "$USER" = 'root' ]; then
+	alias stdColours="rootColours"
+    else
+	alias stdColours="lightNcsColours"
+    fi
+    
+    if [ "$COLORTERM" = '' ]; then
+	stdColours
+    fi
+    
+    
+    termpalette=
+    
+    function palette-set
+    {
+	termpalette=$@
+    }
+    
+    function palette-reset
+    {
+	echo -n $termpalette
+    }
+    
+    if [ "$COLORTERM" = '' ]; then
+	palette-set `stdColours`
+    fi
+fi
+
+
+#################################################################################################
 ##  Linux VT colour palettes
 #################################################################################################
 
-alias   linuxColours="echo -en '\e]P0000000\e]P1AA0000\e]P200AA00\e]P3AA5500\e]P40000AA\e]P5AA00AA\e]P600AAAA\e]P7AAAAAA\e]P8555555\e]P9FF5555\e]PA55FF55\e]PBFFFF55\e]PC5555FF\e]PDFF55FF\e]PE55FFFF\e]PFFFFFFF'"
-alias   tangoColours="echo -en '\e]P02E3436\e]P1CC0000\e]P24E9A06\e]P3C4A000\e]P43465A4\e]P575507B\e]P606989A\e]P7D3D7CF\e]P8585858\e]P9FF5555\e]PA55FF55\e]PBFFFF55\e]PC5555FF\e]PDFF55FF\e]PE55FFFF\e]PFFFFFFF'"
-alias tangoidColours="echo -en '\e]P0000000\e]P1CC0000\e]P24E9A06\e]P3C4A000\e]P43465A4\e]P575507B\e]P606989A\e]P7D3D7CF\e]P8585858\e]P9FF5555\e]PA55FF55\e]PBFFFF55\e]PC5555FF\e]PDFF55FF\e]PE55FFFF\e]PFFFFFFF'"
-alias  cobaltColours="echo -en '\e]P0020840\e]P1CC0000\e]P24E9A06\e]P3C4A000\e]P43465A4\e]P575507B\e]P606989A\e]P7D3D7CF\e]P8585858\e]P9FF5555\e]PA55FF55\e]PBFFFF55\e]PC5555FF\e]PDFF55FF\e]PE55FFFF\e]PFFFFFFF'"
-alias  yellowColours="echo -en '\e]P0303008\e]P1CC0000\e]P24E9A06\e]P3C4A000\e]P43465A4\e]P575507B\e]P606989A\e]P7D3D7CF\e]P8585858\e]P9FF5555\e]PA55FF55\e]PBFFFF55\e]PC5555FF\e]PDFF55FF\e]PE55FFFF\e]PFFFFFFF'"
-alias    rootColours="echo -en '\e]P0300000\e]P1CD656C\e]P232A679\e]P3CCAD47\e]P42495BE\e]P5A46EB0\e]P600A09F\e]P7D3D7CF\e]P8555753\e]P9EB5E6A\e]PA0EC287\e]PBF2CA38\e]PC00ACE0\e]PDC473D1\e]PE00C3C7\e]PFEEEEEE'"
-alias     ncsColours="echo -en '\e]P0020840\e]P1CD656C\e]P232A679\e]P3CCAD47\e]P42495BE\e]P5A46EB0\e]P600A09F\e]P7D3D7CF\e]P8555753\e]P9EB5E6A\e]PA0EC287\e]PBF2CA38\e]PC00ACE0\e]PDC473D1\e]PE00C3C7\e]PFEEEEEE'"
-alias lightNcsColours="echo -en '\e]P00C1458\e]P1CD656C\e]P232A679\e]P3CCAD47\e]P42495BE\e]P5A46EB0\e]P600A09F\e]P7D3D7CF\e]P8555753\e]P9EB5E6A\e]PA0EC287\e]PBF2CA38\e]PC00ACE0\e]PDC473D1\e]PE00C3C7\e]PFEEEEEE'"
-alias blackNcsColours="echo -en '\e]P0000000\e]P1CD656C\e]P232A679\e]P3CCAD47\e]P42495BE\e]P5A46EB0\e]P600A09F\e]P7D3D7CF\e]P8555753\e]P9EB5E6A\e]PA0EC287\e]PBF2CA38\e]PC00ACE0\e]PDC473D1\e]PE00C3C7\e]PFEEEEEE'"
-
-
-
-if [ "$USER" = 'root' ]; then
-    alias stdColours="echo -en '\e]P0300000\e]P1CD656C\e]P232A679\e]P3CCAD47\e]P42495BE\e]P5A46EB0\e]P600A09F\e]P7D3D7CF\e]P8555753\e]P9EB5E6A\e]PA0EC287\e]PBF2CA38\e]PC00ACE0\e]PDC473D1\e]PE00C3C7\e]PFEEEEEE'"
-else
-    alias stdColours="echo -en '\e]P00C1458\e]P1CD656C\e]P232A679\e]P3CCAD47\e]P42495BE\e]P5A46EB0\e]P600A09F\e]P7D3D7CF\e]P8555753\e]P9EB5E6A\e]PA0EC287\e]PBF2CA38\e]PC00ACE0\e]PDC473D1\e]PE00C3C7\e]PFEEEEEE'"
-fi
-
 if [ "$TERM" = "linux" ]; then
+    alias   linuxColours="echo -en '\e]P0000000\e]P1AA0000\e]P200AA00\e]P3AA5500\e]P40000AA\e]P5AA00AA\e]P600AAAA\e]P7AAAAAA\e]P8555555\e]P9FF5555\e]PA55FF55\e]PBFFFF55\e]PC5555FF\e]PDFF55FF\e]PE55FFFF\e]PFFFFFFF'"
+    alias   tangoColours="echo -en '\e]P02E3436\e]P1CC0000\e]P24E9A06\e]P3C4A000\e]P43465A4\e]P575507B\e]P606989A\e]P7D3D7CF\e]P8585858\e]P9FF5555\e]PA55FF55\e]PBFFFF55\e]PC5555FF\e]PDFF55FF\e]PE55FFFF\e]PFFFFFFF'"
+    alias tangoidColours="echo -en '\e]P0000000\e]P1CC0000\e]P24E9A06\e]P3C4A000\e]P43465A4\e]P575507B\e]P606989A\e]P7D3D7CF\e]P8585858\e]P9FF5555\e]PA55FF55\e]PBFFFF55\e]PC5555FF\e]PDFF55FF\e]PE55FFFF\e]PFFFFFFF'"
+    alias  cobaltColours="echo -en '\e]P0020840\e]P1CC0000\e]P24E9A06\e]P3C4A000\e]P43465A4\e]P575507B\e]P606989A\e]P7D3D7CF\e]P8585858\e]P9FF5555\e]PA55FF55\e]PBFFFF55\e]PC5555FF\e]PDFF55FF\e]PE55FFFF\e]PFFFFFFF'"
+    alias  yellowColours="echo -en '\e]P0303008\e]P1CC0000\e]P24E9A06\e]P3C4A000\e]P43465A4\e]P575507B\e]P606989A\e]P7D3D7CF\e]P8585858\e]P9FF5555\e]PA55FF55\e]PBFFFF55\e]PC5555FF\e]PDFF55FF\e]PE55FFFF\e]PFFFFFFF'"
+    alias    rootColours="echo -en '\e]P0300000\e]P1CD656C\e]P232A679\e]P3CCAD47\e]P42495BE\e]P5A46EB0\e]P600A09F\e]P7D3D7CF\e]P8555753\e]P9EB5E6A\e]PA0EC287\e]PBF2CA38\e]PC00ACE0\e]PDC473D1\e]PE00C3C7\e]PFEEEEEE'"
+    alias     ncsColours="echo -en '\e]P0020840\e]P1CD656C\e]P232A679\e]P3CCAD47\e]P42495BE\e]P5A46EB0\e]P600A09F\e]P7D3D7CF\e]P8555753\e]P9EB5E6A\e]PA0EC287\e]PBF2CA38\e]PC00ACE0\e]PDC473D1\e]PE00C3C7\e]PFEEEEEE'"
+    alias lightNcsColours="echo -en '\e]P00C1458\e]P1CD656C\e]P232A679\e]P3CCAD47\e]P42495BE\e]P5A46EB0\e]P600A09F\e]P7D3D7CF\e]P8555753\e]P9EB5E6A\e]PA0EC287\e]PBF2CA38\e]PC00ACE0\e]PDC473D1\e]PE00C3C7\e]PFEEEEEE'"
+    alias blackNcsColours="echo -en '\e]P0000000\e]P1CD656C\e]P232A679\e]P3CCAD47\e]P42495BE\e]P5A46EB0\e]P600A09F\e]P7D3D7CF\e]P8555753\e]P9EB5E6A\e]PA0EC287\e]PBF2CA38\e]PC00ACE0\e]PDC473D1\e]PE00C3C7\e]PFEEEEEE'"
+    
+    
+    
+    if [ "$USER" = 'root' ]; then
+	alias stdColours=rootNcsColours
+    else
+	alias stdColours=lightNcsColours
+    fi
+    
     stdColours
+    
+    termpalette=
+    
+    function palette-set
+    {
+	termpalette=$@
+    }
+    
+    function palette-reset
+    {
+	echo -n $termpalette
+    }
+    
+    palette-set `stdColours`
 fi
-
-
-termpalette=
-
-function palette-set
-{
-    termpalette=$@
-}
-
-function palette-reset
-{
-    echo -n $termpalette
-}
-
-palette-set `stdColours`
 
 
 
@@ -414,6 +459,9 @@ else
 	    TERM='xterm'
 	fi
 	echo -en '\e]0;emacs: '"$1"'\a'
+	#if [ "$COLORTERM" = '' ] && [ "$TERM" = 'xterm' ]; then
+	#    (sleep 0.5 ; palette-reset ) &
+	#¤fi
 	emacs -nw "$@"
 	echo -en '\e]0;\u@\h: \w  ||  `tty`\a'
 	if [ $xhi = 1 ]; then
@@ -428,7 +476,15 @@ function mkcd
     cd "$1"
 }
 
-alias etty='echo -en "\ec"'
+if [ "$COLORTERM" = '' ]; then
+    if [ "$TERM" = 'xterm' ] || [ "$TERM" = 'xterm-256color' ]; then
+	alias etty='echo -en "\ec";palette-reset'
+    else
+	alias etty='echo -en "\ec"'
+    fi
+else
+    alias etty='echo -en "\ec"'
+fi
 
 alias dt="date +%Y-\(%m\)%b-%d\ %T,\ %a\ w%W/%V,\ %Z"
 
@@ -460,19 +516,19 @@ swd="${HOME}"
 swd2="${HOME}"
 function swd
 {
-    swd=`pwd`
+    swd="`pwd`"
 }
 function rwd
 {
-    cd $swd
+    cd "$swd"
 }
 function swd2
 {
-    swd2=`pwd`
+    swd2="`pwd`"
 }
 function rwd2
 {
-    cd $swd2
+    cd "$swd2"
 }
 
 function todo
@@ -647,8 +703,13 @@ else
 	fi
     fi
     if [ "$TERM" = "xterm" ]; then
-	if [ "$COLORTERM" = "mate-terminal" ]; then
+	#if [ "$COLORTERM" = "mate-terminal" ]; then
 	    TERM=xterm-256color
+	#fi
+    fi
+    if [ "$COLORTERM" = '' ]; then
+	if [ "$TERM" = 'xterm' ] || [ "$TERM" = 'xterm-256color' ]; then
+	    palette-reset
 	fi
     fi
 fi
@@ -737,3 +798,4 @@ alias cdgit="cd ~/git"
 alias build=". build.sh"
 alias clean=". clean.sh"
 alias run=". run.sh"
+alias ge="gemacs"
