@@ -614,6 +614,15 @@ function gitpull
     git pull . "$1"
 }
 
+function gitp
+{
+    __gb_=`___git_branch_`
+    git pull
+    git checkout "$1"
+    git pull
+    git pull . $__gb_
+}
+
 function gittag
 {
     git tag -a "$@"
@@ -693,10 +702,10 @@ else
     #term
     dt
     if [ "$TERM" = "linux" ]; then
-	fortune | unisay -p linux-vt -P
+	pinkie | unisay -p linux-vt -P
 	echo -en '\e[?8c'
     else
-	fortune | unisay -p unicode -P
+	pinkie | unisay -p unicode -P
 	if [[ ! -f "/dev/shm/.$DISPLAY" ]]; then
 	    touch "/dev/shm/.$DISPLAY"
 	    setxkbmap 2>/dev/null >/dev/null
