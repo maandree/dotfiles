@@ -386,11 +386,12 @@ if [ "$TERM" = "linux" ]; then
      function nvlc()
      {
 	 (sleep 0.5; palette-reset; sleep 0.5; palette-reset) &
-	 /usr/bin/nvlc --no-video "$@"
+	 22:00 /usr/bin/nvlc --no-video "$@" || echo -n ''
+	 stty icanon echo icrln echoctl -ixoff ixon olncr
 	 palette-reset
      }
 else
-    alias nvlc="nvlc --no-video"
+    alias nvlc="22:00 nvlc --no-video"
 fi
 
 alias mplayer="mplayer -softvol -msgcolor"
@@ -461,7 +462,7 @@ else
 	echo -en '\e]0;emacs: '"$1"'\a'
 	#if [ "$COLORTERM" = '' ] && [ "$TERM" = 'xterm' ]; then
 	#    (sleep 0.5 ; palette-reset ) &
-	#¤fi
+	#fi
 	emacs -nw "$@"
 	echo -en '\e]0;\u@\h: \w  ||  `tty`\a'
 	if [ $xhi = 1 ]; then
