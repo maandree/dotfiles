@@ -383,13 +383,21 @@ shopt -s checkwinsize
 
 #Release unification and bug workaround for VLC
 if [ "$TERM" = "linux" ]; then
-     function nvlc()
-     {
-	 (sleep 0.5; palette-reset; sleep 0.5; palette-reset) &
-	 22:00 /usr/bin/nvlc --no-video "$@" || echo -n ''
-	 stty icanon echo icrln echoctl -ixoff ixon olncr
-	 palette-reset
-     }
+    function nvlc1
+    {
+	(palette-reset; sleep 0.5; palette-reset; sleep 0.5; palette-reset) & 
+	22:00 /usr/bin/nvlc --no-video "$@" || echo -n ''
+    }
+    function nvlc2
+    {
+	stty icanon echo icrnl -echoctl -ixoff ixon onlcr iutf8
+	palette-reset
+    }
+    function nvlc
+    {
+	nvlc1 "$@"
+	nvlc2
+    }
 else
     alias nvlc="22:00 nvlc --no-video"
 fi
@@ -400,12 +408,12 @@ alias nplayer="mplayer -softvol -novideo"
 if [ "$TERM" = "linux" ]; then
     function ponysay
     {
-	/usr/bin/ponysay $@
+	/usr/bin/ponysay "$@"
 	palette-reset
     }
     function unisay
     {
-	/usr/bin/unisay $@
+	/usr/bin/unisay "$@"
 	palette-reset
     }
 fi
@@ -646,7 +654,7 @@ alias Pacman="sudo yaourt"
 
 alias aur="sudo yaourt --aur"
 
-alias pacman="sudo pacman"
+alias pacman="sudo pacman-color"
 
 
 #################################################################################################
