@@ -2,7 +2,7 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-PATH+=:$(echo ~)/.local/bin
+export PATH=$(echo ~)"/.local/bin:"$PATH
 
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -146,11 +146,11 @@ if [ "$TERM" = "xterm" ] || [ "$TERM" = "xterm-256color" ]; then
     fi
     
     
-    termpalette=
+    export termpalette=
     
     function palette-set
     {
-	termpalette=$@
+	export termpalette=$@
     }
     
     function palette-reset
@@ -378,6 +378,19 @@ shopt -s checkwinsize
 
 
 #################################################################################################
+##  Important exports
+#################################################################################################
+
+export LOCALE="en_GB.UTF-8"
+export LC_ALL="en_GB.UTF-8"
+export LANG="en_GB.UTF-8"
+
+export EDITOR="emacs -nw"
+
+export CVS_RSH="ssh"
+
+
+#################################################################################################
 ##  Release unification and bug and functionallity workarounds
 #################################################################################################
 
@@ -408,6 +421,7 @@ alias nplayer="mplayer -softvol -novideo"
 if [ "$TERM" = "linux" ]; then
     function ponysay
     {
+	export PONYSAY_KMS_PALETTE=`palette-reset`
 	/usr/bin/ponysay "$@"
 	palette-reset
     }
@@ -542,9 +556,11 @@ function rwd2
 
 function todo
 {
-    egrep -rn '(X|x)(X|x)(X|x)'
-    egrep -rn '(T|t)(O|o)(D|d)(O|o)'
-    egrep -rn '(F|f)(I|i)(X|x)(M|m)(E|e)'
+    for todo in $(echo xxx todo fixme); do
+	grep -rinI --colour=always $todo | grep -v "$(echo -e '^\e\\[.*m\e\\[K\\.')"
+    done
+    [[ -f "./dev/TODO" ]] &&
+	cat "./dev/TODO"
 }
 
 function purge
@@ -576,6 +592,11 @@ function burstgif-rm
     done
 }
 
+function touchall
+{
+    find "$@" | sed -e 's/'\''/'\''\\'\'\''/g' | sed -e 's/^/'\''/' -e 's/$/'\''/g' | xargs touch
+}
+
 
 #################################################################################################
 ##  Git commands
@@ -583,6 +604,8 @@ function burstgif-rm
 
 alias gitpu="git push -u origin"
 alias gitcom="git commit -m"
+alias gitlog="git log --graph --decorate"
+alias gitlogg="git log --graph --decorate --full-history"
 
 function _____gp___bashrc_
 {
@@ -699,10 +722,6 @@ function dog
 ##  main()
 #################################################################################################
 
-export LOCALE="en_GB.UTF-8"
-export LC_ALL="en_GB.UTF-8"
-export LANG="en_GB.UTF-8"
-
 if [ "$TERM" = "dumb" ]; then
     dt
     clock on
@@ -731,8 +750,6 @@ else
 	fi
     fi
 fi
-
-export EDITOR="emacs -nw"
 
 export LS_COLORS=\
 'rs=0:'\
@@ -802,7 +819,7 @@ function open-ALL
 ##  Space for echoed program invocations
 #################################################################################################
 
-alias s="less ~/Desktop/maandree.schema"
+alias s="less ~/maandree.schema"
 
 alias sshcsc="ssh -XC maandree@u-shell.csc.kth.se"
 alias sshcsc-u="ssh -XC maandree@u-shell.csc.kth.se"
