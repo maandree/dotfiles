@@ -1,0 +1,51 @@
+\txisetlanguage{svenska}{2}{3}
+\plainnonfrenchspacing
+
+\gdef\putwordAppendix{Appendix}
+\gdef\putwordChapter{Kapitel}
+\gdef\putwordsection{avsnitt}
+\gdef\putwordSection{Avsnitt}
+\gdef\putwordpage{sida}
+\gdef\putwordfile{fil}
+\gdef\putwordin{i}
+\gdef\putwordof{av}
+\gdef\putwordon{på}
+\gdef\putwordsee{se}
+\gdef\putwordSee{Se}
+\gdef\putwordIndexIsEmpty{(Indexet är tomt)}
+\gdef\putwordIndexNonexistent{(Indexet existerar inte)}
+\gdef\putwordShortTOC{Kort innehållsförteckning}
+\gdef\putwordTOC{Innehållsförteckning}
+\gdef\putwordInstanceVariableof{Instansvariabel av}
+\gdef\putwordMethodon{Metod på}
+\gdef\putwordNoTitle{Titellös}
+\gdef\putwordInfo{Info}
+
+\gdef\putwordMJan{januari}
+\gdef\putwordMFeb{februari}
+\gdef\putwordMMar{mars}
+\gdef\putwordMApr{april}
+\gdef\putwordMMay{maj}
+\gdef\putwordMJun{juni}
+\gdef\putwordMJul{juli}
+\gdef\putwordMAug{augusti}
+\gdef\putwordMSep{september}
+\gdef\putwordMOct{oktober}
+\gdef\putwordMNov{november}
+\gdef\putwordMDec{december}
+
+\gdef\putwordDefmac{Makro}
+\gdef\putwordDefspec{Speciell form}
+\gdef\putwordDefvar{Förekomstvariabel}
+\gdef\putwordDefopt{Användarval}
+\gdef\putwordDeffunc{Funktion}
+
+\def\today{
+  \number\day\space
+  \ifcase\month
+  \or\putwordMJan\or\putwordMFeb\or\putwordMMar\or\putwordMApr
+  \or\putwordMMay\or\putwordMJun\or\putwordMJul\or\putwordMAug
+  \or\putwordMSep\or\putwordMOct\or\putwordMNov\or\putwordMDec
+  \fi
+  \space\number\year
+}
