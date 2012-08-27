@@ -419,6 +419,13 @@ alias mplayer="mplayer -softvol -msgcolor"
 alias nplayer="mplayer -softvol -novideo"
 
 if [ "$TERM" = "linux" ]; then
+    function ponysay_nopal
+    {
+	export PONYSAY_KMS_PALETTE=``
+	export PONYSAY_KMS_PALETTE_CMD=``
+	/usr/bin/ponysay "$@"
+	palette-reset
+    }
     function ponysay
     {
 	export PONYSAY_KMS_PALETTE=`palette-reset`
@@ -833,4 +840,9 @@ alias cdgit="cd ~/git"
 alias build=". build.sh"
 alias clean=". clean.sh"
 alias run=". run.sh"
+alias dev="./dev.sh"
 alias ge="gemacs"
+alias spell="./dev/spell.sh"
+alias dist="./dev/dist.sh"
+
+alias notesmod='find . | egrep \\.\(png\|svg\|odt\|pdf\|missing\)\$ | sed -e '\''s/^/'\''\'\'''\''/'\'' -e '\''s/$/'\''\'\'''\''/'\'' | xargs chmod 644'
