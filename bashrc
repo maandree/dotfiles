@@ -675,6 +675,13 @@ function gitupdate
     git pull . upstream/`___git_branch_`
 }
 
+alias gitstepback='git checkout $(git log | grep '\''^commit [0-9a-f]*$'\'' | head --lines=2 | tail --lines=1 | cut -d " " -f 2)'
+
+function githist
+{
+    git log | grep '^commit [0-9a-f]*$' | sed -e s/'commit '"$1"'/'"$(echo -en \\e)"'\[1;31mcommit '"$1$(echo -en \\e)"'\[m'/g
+}
+
 
 #################################################################################################
 ##  Package management
@@ -685,6 +692,10 @@ alias Pacman="sudo yaourt"
 alias aur="sudo yaourt --aur"
 
 alias pacman="sudo pacman-color"
+
+alias aur-git-list="pacman -Q | grep -- -git | cut -d \  -f 1"
+
+alias aur-git='sudo yaourt --aur -S $(echo `pacman -Q | grep -- -git | cut -d \  -f 1`)'
 
 
 #################################################################################################
@@ -737,10 +748,10 @@ else
     #term
     dt
     if [ "$TERM" = "linux" ]; then
-	pinkie | unisay -p linux-vt -P
+	pinkie | tee ~/msg | ponysay -b linux-vt
 	echo -en '\e[?8c'
     else
-	pinkie | unisay -p unicode -P
+	pinkie | tee ~/msg | ponysay -b unicode
 	if [[ ! -f "/dev/shm/.$DISPLAY" ]]; then
 	    touch "/dev/shm/.$DISPLAY"
 	    setxkbmap 2>/dev/null >/dev/null
@@ -830,10 +841,12 @@ alias s="less ~/maandree.schema"
 
 alias sshcsc="ssh -XC maandree@u-shell.csc.kth.se"
 alias sshcsc-u="ssh -XC maandree@u-shell.csc.kth.se"
+alias sshcsc-2="ssh -XC maandree@share-02.csc.kth.se"
 alias sshcsc-s="ssh -XC maandree@s-shell.csc.kth.se"
 
 alias sftpcsc="sftp maandree@u-shell.csc.kth.se"
 alias sftpcsc-u="sftp maandree@u-shell.csc.kth.se"
+alias sftpcsc-2="sftp maandree@share-02.csc.kth.se"
 alias sftpcsc-s="sftp maandree@s-shell.csc.kth.se"
 
 alias cdgit="cd ~/git"
