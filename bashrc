@@ -4,6 +4,45 @@
 
 export PATH=$(echo ~)"/.local/bin:"$PATH
 
+
+## emacs fitted for terminals
+#if [ "$TERM" = "linux" ]; then
+#    xem=1
+#    function nemacs
+#    {
+#	if [ "$xem" = '1' ]; then
+#	    #echo -en '\e[?8c'
+#	    TERM='xterm'
+#	fi
+#	echo -en '\e[?8c'
+#	emacs -nw "$@"
+#	echo -en '\e[?8c'
+#	TERM='linux'
+#	#if [ "$xem" = '1' ]; then
+#	#    echo -en '\e[?0c'
+#	#fi
+#    }
+#else
+#    function nemacs
+#    {
+#	xhi=0
+#	if [ "$TERM" = 'xterm-256color' ]; then
+#	    xhi=1
+#	    TERM='xterm'
+#	fi
+#	echo -en '\e]0;emacs: '"$1"'\a'
+#	#if [ "$COLORTERM" = '' ] && [ "$TERM" = 'xterm' ]; then
+#	#    (sleep 0.5 ; palette-reset ) &
+#	#fi
+#	emacs -nw "$@"
+#	echo -en '\e]0;\u@\h: \w  ||  `tty`\a'
+#	if [ $xhi = 1 ]; then
+#	    TERM='xterm-256color'
+#	fi
+#    }
+#fi
+
+
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
@@ -110,8 +149,8 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 alias lsh='ls -A'
-
-alias ls='ls --color=always'
+alias lsc='ls --color=always'
+alias ls='ls --color=auto'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -182,7 +221,7 @@ if [ "$TERM" = "linux" ]; then
     
     
     if [ "$USER" = 'root' ]; then
-	alias stdColours=rootNcsColours
+	alias stdColours=rootColours
     else
 	alias stdColours=lightNcsColours
     fi
@@ -285,7 +324,7 @@ termdual=1
 function ___d_brc_
 {
     if [[ $termdual = 1 ]]; then
-	echo '\[\033[0m\033[C\033[D\]\n'
+	echo '\[\033[0m\033[C\033[D\]\n\[\033[2K\]'
     fi
 }
 
@@ -349,7 +388,7 @@ function _____dir__update__bashrc_
     fi
   fi
   
-  PS1="$PS1\$\[\033[0m\] "
+  PS1="\[\033[2K\]$PS1\$\[\033[0m\] "
 }
 
 _____dir__update__bashrc_
@@ -385,7 +424,7 @@ export LOCALE="en_GB.UTF-8"
 export LC_ALL="en_GB.UTF-8"
 export LANG="en_GB.UTF-8"
 
-export EDITOR="emacs -nw"
+export EDITOR="nemacs"
 
 export CVS_RSH="ssh"
 
@@ -463,46 +502,9 @@ function blackcat
     echo -en '\e[0m'
 }
 
-# emacs fitted for terminals
-if [ "$TERM" = "linux" ]; then
-    xem=1
-    function nemacs
-    {
-	if [ "$xem" = '1' ]; then
-	    #echo -en '\e[?8c'
-	    TERM='xterm'
-	fi
-	echo -en '\e[?8c'
-	emacs -nw "$@"
-	echo -en '\e[?8c'
-	TERM='linux'
-	#if [ "$xem" = '1' ]; then
-	#    echo -en '\e[?0c'
-	#fi
-    }
-else
-    function nemacs
-    {
-	xhi=0
-	if [ "$TERM" = 'xterm-256color' ]; then
-	    xhi=1
-	    TERM='xterm'
-	fi
-	echo -en '\e]0;emacs: '"$1"'\a'
-	#if [ "$COLORTERM" = '' ] && [ "$TERM" = 'xterm' ]; then
-	#    (sleep 0.5 ; palette-reset ) &
-	#fi
-	emacs -nw "$@"
-	echo -en '\e]0;\u@\h: \w  ||  `tty`\a'
-	if [ $xhi = 1 ]; then
-	    TERM='xterm-256color'
-	fi
-    }
-fi
-
 function mkcd
 {
-    mkdir "$@"
+    mkdir -p "$@"
     cd "$1"
 }
 
@@ -580,8 +582,7 @@ function purge
 
 function purger
 {
-    rm $(find . 2>/dev/null | grep '~$')       2>/dev/null
-    rm $(find . 2>/dev/null | egrep '/(.|)#')  2>/dev/null
+    ((find . | grep '~$' ; find . | egrep '/(.|)#') | sed -e s/\'/\'\\\'\'/g | sed -e s/'^'/\'/g -e s/'$'/\'/g | xargs rm) 2>/dev/null
 }
 
 function burstgif
@@ -604,15 +605,26 @@ function touchall
     find "$@" | sed -e 's/'\''/'\''\\'\'\''/g' | sed -e 's/^/'\''/' -e 's/$/'\''/g' | xargs touch
 }
 
+function pony
+{
+    for p in "$@"; do
+	cat "$p" | sed -e s/'\$\\\$'/'╲'/g -e s/'\$\/\$'/'╱'/g -e s/'\$X\$'/'╳'/g | cat
+    done
+}
+
 
 #################################################################################################
 ##  Git commands
 #################################################################################################
 
 alias gitpu="git push -u origin"
-alias gitcom="git commit -m"
 alias gitlog="git log --graph --decorate"
 alias gitlogg="git log --graph --decorate --full-history"
+
+function gitcom
+{
+    git commit --signoff -m "$*"
+}
 
 function _____gp___bashrc_
 {
@@ -837,7 +849,7 @@ function open-ALL
 ##  Space for echoed program invocations
 #################################################################################################
 
-alias s="less ~/maandree.schema"
+alias s="java7 -cp ~/git/schema/bin/ se.kth.maandree.mastertimekeeper.Program ~/maandree.schema"
 
 alias sshcsc="ssh -XC maandree@u-shell.csc.kth.se"
 alias sshcsc-u="ssh -XC maandree@u-shell.csc.kth.se"
@@ -849,7 +861,11 @@ alias sftpcsc-u="sftp maandree@u-shell.csc.kth.se"
 alias sftpcsc-2="sftp maandree@share-02.csc.kth.se"
 alias sftpcsc-s="sftp maandree@s-shell.csc.kth.se"
 
-alias cdgit="cd ~/git"
+function cdgit
+{
+    cd ~/git
+    [[ ! $# = 0 ]] &&  cd "$@"
+}
 alias build=". build.sh"
 alias clean=". clean.sh"
 alias run=". run.sh"
@@ -859,3 +875,5 @@ alias spell="./dev/spell.sh"
 alias dist="./dev/dist.sh"
 
 alias notesmod='find . | egrep \\.\(png\|svg\|odt\|pdf\|missing\)\$ | sed -e '\''s/^/'\''\'\'''\''/'\'' -e '\''s/$/'\''\'\'''\''/'\'' | xargs chmod 644'
+
+alias q="~/git/ponymenu/ponymenu.py"
