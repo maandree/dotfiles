@@ -1,0 +1,16 @@
+# -*- mode: python, coding: utf-8  -*-
+
+# self.sites (alternatively sites) is a list that you
+# should fill with Site:s, a site descripts a subsystem
+# that generates updates. Site's constructor takes 3
+# arguments: name, interval, implementation. The first
+# `name` is the name of the subsystme, it is displayed
+# as the title on all updates. `interval` is the number
+# is minutes between update checks. `implementation` is
+# function or functor that returns an update message,
+# or an empty string if there are no updates.
+
+def aurpkg():
+    return Popen([os.getenv('HOME') + '/git/aur-packages/watch'], stdout=PIPE).communicate()[0].decode('utf-8', 'replace')
+
+self.sites.append(Site('Update aur-packages', 30, aurpkg))
