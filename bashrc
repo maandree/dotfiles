@@ -876,4 +876,4 @@ alias dist="./dev/dist.sh"
 
 alias notesmod='find . | egrep \\.\(png\|svg\|odt\|pdf\|missing\)\$ | sed -e '\''s/^/'\''\'\'''\''/'\'' -e '\''s/$/'\''\'\'''\''/'\'' | xargs chmod 644'
 
-alias q="~/git/ponymenu/ponymenu.py"
+alias q="ponymenu"
