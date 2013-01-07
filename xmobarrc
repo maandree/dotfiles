@@ -1,0 +1,37 @@
+-- -*- mode: haskell -*-
+
+Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
+       , bgColor = "black"
+       , fgColor = "grey"
+       , position = Bottom
+       , lowerOnStart = True
+       , commands = [ Run Network "eth0" [ "-L", "0"
+                                         , "-H", "32"
+                                         , "--normal", "#32A679"
+                                         , "--high", "#CD656C"
+                                         ] 5
+                    , Run Cpu [ "-L", "5"
+                              , "-H", "50"
+                              , "--normal", "#32A679"
+                              , "--high", "#CD656C"
+                              ] 5
+                    , Run Memory [ "-t", "Mem: <usedratio>%"
+                                 ] 5
+                    , Run Swap [] 5
+                    , Run Com "uname" ["-o", "-r", "-n"] "" 36000
+                    , Run Date "%Y-(%m)%b-%d %T, %a w%W/%V, %Z" "date" 5
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%cpu% │ %memory% │ %swap% │ %eth0% }{ <fc=#2495BE>%date%</fc> │ %uname%"
+       }
+
+-- %a %b %_d %Y %H:%M:%S
+
+-- Run Weather "EGPF" [ "-t", "<station>: <tempC>°C"
+--                   ,  "-L", "18"
+--                   ,  "-H", "25"
+--                   ,  "--normal", "#32A679"
+--                   ,  "--high", "#CD656C"
+--                   ,  "--low", "#2495BE"
+--                   ] 36000
