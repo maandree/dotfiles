@@ -23,7 +23,7 @@ Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%cpu% │ %memory% │ %swap% │ %eth0% }{ <fc=#2495BE>%date%</fc> │ %uname%"
+       , template = "<fc=#2495BE>%date%</fc> }{ %cpu% │ %memory% │ %swap% │ %eth0% │ %uname%"
        }
 
 -- %a %b %_d %Y %H:%M:%S
