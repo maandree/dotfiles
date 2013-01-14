@@ -1,0 +1,6 @@
+! If you are modifiy this part, you are probabily doing something wrong
+Xft.dpi:	96
+Xft.antialias:	1
+Xft.hinting:	1
+Xft.hintstyle:	hintslight
+Xft.rgba:	none
