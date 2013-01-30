@@ -20,10 +20,12 @@ Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
                     , Run Swap [] 5
                     , Run Com "uname" ["-o", "-r", "-n"] "" 36000
                     , Run Date "%Y-(%m)%b-%d %T, %a w%W/%V, %Z" "date" 5
+--                    , Run Com "sh" ["-c", "amixer -c 0 | head --lines 19 | tail --lines 2 | cut -d ' ' -f 7 | cut -d '[' -f 2 | xargs echo 'Vol:' | sed -e 's_]__g'"] "vol" 50
+                    , Run Com "sh" ["-c", "'amixer -c 0 -- get PCM | tail --lines 2 | cut -d [ -f 2 | xargs echo Vol: | sed -e s_]__g'"] "vol" 50
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "<fc=#2495BE>%date%</fc> }{ %cpu% │ %memory% │ %swap% │ %eth0% │ %uname%"
+       , template = "<fc=#2495BE>%date%</fc> }{ %vol% │ %cpu% │ %memory% │ %swap% │ %eth0% │ %uname%"
        }
 
 -- %a %b %_d %Y %H:%M:%S

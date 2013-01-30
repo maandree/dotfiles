@@ -1,0 +1,37 @@
+# emacs fitted for terminals
+if [ "$TERM" = "linux" ]; then
+    #xem=1
+    function nemacs
+    {
+	#if [ "$xem" = '1' ]; then
+	#    #echo -en '\e[?8c'
+	    export TERM='xterm'
+	#fi
+	echo -en '\e[?8c'
+	emacs -nw "$@"
+	echo -en '\e[?8c'
+	export TERM='linux'
+	#if [ "$xem" = '1' ]; then
+	#    echo -en '\e[?0c'
+	#fi
+    }
+else
+    function nemacs
+    {
+	#xhi=0
+	#if [ "$TERM" = 'xterm-256color' ]; then
+	#    xhi=1
+	    export TERM='xterm'
+	#fi
+	echo -en '\e]0;emacs: '"$1"'\a'
+	#if [ "$COLORTERM" = '' ] && [ "$TERM" = 'xterm' ]; then
+	#    (sleep 0.5 ; palette-reset ) &
+	#fi
+	emacs -nw "$@"
+	echo -en '\e]0;\u@\h: \w  ||  `tty`\a'
+	#if [ $xhi = 1 ]; then
+	    export TERM='xterm-256color'
+	#fi
+    }
+fi
+nemacs "$@"

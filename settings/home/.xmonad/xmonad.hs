@@ -37,8 +37,7 @@ numPadKeys = [ xK_KP_End,  xK_KP_Down,  xK_KP_Page_Down -- 1, 2, 3
 myClean =   "for x in `pgrep conky`     ; do kill -9 $x; done ; " ++
             "for x in `pgrep xmobar`    ; do kill -9 $x; done ; " ++
             "for x in `pgrep dzen2`     ; do kill -9 $x; done ; " ++
-            "for x in `pgrep trayer`    ; do kill -9 $x; done ; " ++
-            "for x in `pgrep appenddate`; do kill -9 $x; done"
+            "for x in `pgrep trayer`    ; do kill -9 $x; done"
 
 myRestart = myClean ++ " ; " ++
             "(xmonad --recompile && xmonad --restart)"
