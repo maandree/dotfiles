@@ -1,3 +1,6 @@
+/**
+ * Random sound player used at a party on Nightmare Night 2011
+ */
 import java.io.*;
 
 public class RandomSound
