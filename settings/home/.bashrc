@@ -78,7 +78,7 @@ fi
 . ~/.config/.bashrc_pdf
 . ~/.config/.bashrc_main
 . ~/.config/.bashrc_boot
-. ~/.config/.bashrc_mount
+. ~/.config/.bashrc_encryption
 
 
 #################################################################################################
@@ -86,7 +86,7 @@ fi
 #################################################################################################
 
 . ~/.config/.bashrc_crypt
-. ~/.config/.bashrc_encryption
+. ~/.config/.bashrc_mount
 . ~/.config/.bashrc_ssh
 
 alias s="java7 -cp ~/git/schema/bin/ se.kth.maandree.mastertimekeeper.Program ~/maandree.schema"
