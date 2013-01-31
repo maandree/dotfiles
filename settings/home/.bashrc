@@ -79,25 +79,17 @@ fi
 . ~/.config/.bashrc_main
 . ~/.config/.bashrc_boot
 . ~/.config/.bashrc_mount
-. ~/.config/.bashrc_crypt
-. ~/.config/.bashrc_encryption
 
 
 #################################################################################################
 ##  Personal
 #################################################################################################
 
+. ~/.config/.bashrc_crypt
+. ~/.config/.bashrc_encryption
+. ~/.config/.bashrc_ssh
+
 alias s="java7 -cp ~/git/schema/bin/ se.kth.maandree.mastertimekeeper.Program ~/maandree.schema"
-
-alias sshcsc="ssh -XC maandree@u-shell.csc.kth.se"
-alias sshcsc-u="ssh -XC maandree@u-shell.csc.kth.se"
-alias sshcsc-2="ssh -XC maandree@share-02.csc.kth.se"
-alias sshcsc-s="ssh -XC maandree@s-shell.csc.kth.se"
-
-alias sftpcsc="sftp maandree@u-shell.csc.kth.se"
-alias sftpcsc-u="sftp maandree@u-shell.csc.kth.se"
-alias sftpcsc-2="sftp maandree@share-02.csc.kth.se"
-alias sftpcsc-s="sftp maandree@s-shell.csc.kth.se"
 
 alias q="ponymenu"
 
