@@ -2,7 +2,7 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-export PATH=$(echo ~)"/.local/bin:"$PATH
+export PATH="$(echo ~)/.local/bin:$PATH"
 export GPG_KEY=69E7C5ED
 
 
