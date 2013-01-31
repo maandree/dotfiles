@@ -1,0 +1,21 @@
+#################################################################################################
+##  Window terminals
+#################################################################################################
+
+function ____window__update__bashrc_
+{
+case "$TERM" in
+    xterm*|rxvt*)
+	PS1="\[\e]0;\u@\h: \w  ||  `tty`\a\]$PS1"
+	;;
+    *)
+	;;
+esac
+}
+
+____window__update__bashrc_
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+

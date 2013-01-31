@@ -1,0 +1,33 @@
+#################################################################################################
+##  main()
+#################################################################################################
+
+if [ "$TERM" = "dumb" ]; then
+    dt
+    clock on
+else
+    etty
+    #term
+    dt
+    if [ "$TERM" = "linux" ]; then
+	pinkie | tee ~/msg | ponysay -b linux-vt
+	echo -en '\e[?8c'
+    else
+	pinkie | tee ~/msg | ponysay -b unicode
+	#if [[ ! -f "/dev/shm/.$DISPLAY" ]]; then   ## not needed with xmonad
+	#    touch "/dev/shm/.$DISPLAY"
+	#    setxkbmap 2>/dev/null >/dev/null
+	#fi
+    fi
+    if [ "$TERM" = "xterm" ]; then
+	#if [ "$COLORTERM" = "mate-terminal" ]; then
+	    TERM=xterm-256color
+	#fi
+    fi
+    if [ "$COLORTERM" = '' ]; then
+	if [ "$TERM" = 'xterm' ] || [ "$TERM" = 'xterm-256color' ]; then
+	    palette-reset
+	fi
+    fi
+fi
+

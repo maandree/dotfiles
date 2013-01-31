@@ -1,0 +1,24 @@
+#################################################################################################
+##  Encryption
+#################################################################################################
+
+
+function encrypt
+{
+    for file in "$@"; do
+        gpg --encrypt --sign -r "${GPG_KEY}" -u "${GPG_KEY}" < "${file}" > "${file}.crypt"
+    done
+    echo -e '\e[01;34m-- Do not forget to shred. --\e[00m'
+}
+
+function decrypt
+{
+    for file in "$@"; do
+        if [ "${file}" = "${file%*.crypt}" ]; then
+            gpg --decrypt < "${file}" > "${file%*.crypt}"
+        else
+            gpg --decrypt < "${file}" > "${file}.decrypted"
+        fi
+    done
+}
+

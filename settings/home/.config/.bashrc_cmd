@@ -1,0 +1,147 @@
+#################################################################################################
+##  Handy commands
+#################################################################################################
+
+function unlock
+{
+    rm ~/."$1"/lock
+}
+
+# ls piped to less with colours
+function lss
+{
+    ls --color=yes "$@" | less -r
+}
+
+# cat with invisible output for password masking
+function blackcat
+{
+    echo -en '\e[0;30;40m'
+    cat "$@"
+    echo -en '\e[0m'
+}
+
+function mkcd
+{
+    mkdir -p "$@"
+    cd "$1"
+}
+
+if [ "$COLORTERM" = '' ]; then
+    if [ "$TERM" = 'xterm' ] || [ "$TERM" = 'xterm-256color' ]; then
+	alias etty='echo -en "\ec";palette-reset'
+    else
+	alias etty='echo -en "\ec"'
+    fi
+else
+    alias etty='echo -en "\ec"'
+fi
+
+alias dt="date +%Y-\(%m\)%b-%d\ %T,\ %a\ w%W/%V,\ %Z"
+
+alias battery="acpi -V"
+
+alias term="echo -en '\ec'; acpi; echo -en '\e[0;'$(echo `tput cols` - 7 | bc)'H'; date +%H:%M:%S"
+
+alias suu="su || su || su #"
+
+function zu
+{
+    su "$@" || zu "$@"
+}
+
+alias pac-lis="sudo pacman -Qi | grep Licences | tsort 2> /dev/null | distinct : Licenses | sort"
+
+alias rebash="source ~/.bashrc"
+
+alias edbash="nemacs ~/.bashrc"
+
+alias i0="sudo init 0"
+
+alias lesser="less -r"
+
+
+swd="${HOME}"
+swd2="${HOME}"
+function swd
+{
+    swd="`pwd`"
+}
+function rwd
+{
+    cd "$swd"
+}
+function swd2
+{
+    swd2="`pwd`"
+}
+function rwd2
+{
+    cd "$swd2"
+}
+
+function todo
+{
+    for todo in $(echo xxx todo fixme); do
+	grep -rinI --colour=always $todo | grep -v "$(echo -e '^\e\\[.*m\e\\[K\\.')"
+    done
+    [[ -f "./dev/TODO" ]] &&
+	cat "./dev/TODO"
+}
+
+function purge
+{
+    rm *~  2>/dev/null
+    rm .*~  2>/dev/null
+    rm \#*\#  2>/dev/null
+    rm .\#*  2>/dev/null
+}
+
+function purger
+{
+    ((find . | grep '~$' ; find . | egrep '/(.|)#') | sed -e s/\'/\'\\\'\'/g | sed -e s/'^'/\'/g -e s/'$'/\'/g | xargs rm) 2>/dev/null
+}
+
+function burstgif
+{
+    for image in "$@"; do
+	convert -coalesce "$image" "$image".%d.gif
+    done
+}
+
+function burstgif-rm
+{
+    for image in "$@"; do
+	convert -coalesce "$image" "$image".%d.gif
+	rm "$image"
+    done
+}
+
+function touchall
+{
+    find "$@" | sed -e 's/'\''/'\''\\'\'\''/g' | sed -e 's/^/'\''/' -e 's/$/'\''/g' | xargs touch
+}
+
+function pony
+{
+    for p in "$@"; do
+	cat "$p" | sed -e s/'\$\\\$'/'╲'/g -e s/'\$\/\$'/'╱'/g -e s/'\$X\$'/'╳'/g | cat
+    done
+}
+
+function cdgit
+{
+    cd ~/git
+    [[ ! $# = 0 ]] &&  cd "$@"
+}
+
+alias build=". build.sh"
+alias clean=". clean.sh"
+alias run=". run.sh"
+alias dev="./dev.sh"
+alias ge="gemacs"
+alias spell="./dev/spell.sh"
+alias dist="./dev/dist.sh"
+
+alias notesmod='find . | egrep \\.\(png\|svg\|odt\|pdf\|missing\)\$ | sed -e '\''s/^/'\''\'\'''\''/'\'' -e '\''s/$/'\''\'\'''\''/'\'' | xargs chmod 644'
+

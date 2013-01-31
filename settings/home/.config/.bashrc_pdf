@@ -1,0 +1,28 @@
+#################################################################################################
+##  PDF maniplution
+#################################################################################################
+
+alias pdfconcat='gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=concatenated.pdf'
+
+alias pdfcat='gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=cat.pdf'
+
+function unpage
+{
+    if [ -f m.pdf ]; then
+	echo -e '\033[31mm.pdf already exists\033[39m'
+    elif [ -f a.pdf ]; then
+	echo -e '\033[31ma.pdf already exists\033[39m'
+    elif [ -f b.pdf ]; then
+	echo -e '\033[31mb.pdf already exists\033[39m'
+    elif [ ! -f cat.pdf ]; then
+	echo -e '\033[31mcat.pdf does not exist\033[39m'
+    else
+	mv cat.pdf m.pdf
+	gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=a.pdf -dFirstPage=1 -dLastPage="$(( $1 - 1 ))" m.pdf
+	gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=b.pdf -dFirstPage="$(( $1 + 1 ))" -dLastPage="$2" m.pdf
+	gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=cat.pdf a.pdf b.pdf
+	rm a.pdf b.pdf
+	echo -e '\033[33mIf nothing when wrong `rm m.pdf` else `mv m.pdf cat.pdf`\033[39m'
+    fi
+}
+

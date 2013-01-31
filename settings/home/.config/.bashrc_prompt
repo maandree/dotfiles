@@ -1,0 +1,148 @@
+#################################################################################################
+##  Command prompt line
+#################################################################################################
+
+termgit=1
+
+function _____br__bashrc_
+{
+    echo -en "\e[32m$2\e[0m:"
+}
+function _____bra__bashrc_
+{
+    _____br__bashrc_ `git status -b -s 2>/dev/null`
+}
+function _____bran__bashrc_
+{
+    if [[ $termgit = 1 ]]; then
+	git status -b -s 2>/dev/null >&2 && _____bra__bashrc_
+	git status -b -s 2>/dev/null >&2 || echo -n ''
+    else
+	echo -n ''
+    fi
+}
+
+function git-on
+{
+    termgit=1
+}
+function git-off
+{
+    termgit=0
+}
+
+termclock=1
+
+function ____clock__bashrc_
+{
+    if [[ $termclock = 1 ]]; then
+	echo -en " \e[33m($(date +%H:%M:%S))\e[0m"
+    fi
+}
+
+function clock
+{
+    if [[ "$1" = "on" ]]; then
+	clock-on
+    else
+	clock-off
+    fi
+}
+function clock-on
+{
+    termclock=1
+}
+function clock-off
+{
+    termclock=0
+}
+
+termdir=1
+
+function dir-on
+{
+    termdir=1
+    _____dir__update__bashrc_
+    ____window__update__bashrc_
+}
+function dir-off
+{
+    termdir=0
+    _____dir__update__bashrc_
+    ____window__update__bashrc_
+}
+
+termdual=1
+
+function ___d_brc_
+{
+    if [[ $termdual = 1 ]]; then
+	echo '\[\033[0m\033[C\033[D\]\n\[\033[2K\]'
+    fi
+}
+
+function dual-on
+{
+    termdual=1
+    _____dir__update__bashrc_
+    ____window__update__bashrc_
+}
+function dual-off
+{
+    termdual=0
+    _____dir__update__bashrc_
+    ____window__update__bashrc_
+}
+
+
+function _____dir__update__bashrc_
+{
+  if [ "$USER" = 'root' ]; then
+    if [ "$TERM" = "linux" ]; then
+      if [[ $termdir = 1 ]]; then
+        PS1='\[\033[?8c\033[0;34;1m\]\u\[\033[m\]@\[\033[31m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[0;31m\]'
+      else
+        PS1='\[\033[?8c\033[0;34;1m\]\u\[\033[m\]@\[\033[31m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[0;31m\]'
+      fi
+    else
+      if [[ $termdir = 1 ]]; then
+        PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[31m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[0;31m\]'
+      else
+        PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[31m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[0;31m\]'
+      fi
+    fi
+  elif [ "$USER" = 'nobody' ]; then
+    if [ "$TERM" = "linux" ]; then
+      if [[ $termdir = 1 ]]; then
+        PS1='\[\033[?8c\033[0;34;1m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[0;32m\]'
+      else
+        PS1='\[\033[?8c\033[0;34;1m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[0;32m\]'
+      fi
+    else
+      if [[ $termdir = 1 ]]; then
+        PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[0;32m\]'
+      else
+        PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[32m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[0;32m\]'
+      fi
+    fi
+  else
+    if [ "$TERM" = "linux" ]; then
+      if [[ $termdir = 1 ]]; then
+        PS1='\[\033[?8c\033[0;34;1m\]\u\[\033[m\]@\[\033[34m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[34;1m\]'
+      else
+        PS1='\[\033[?8c\033[0;34;1m\]\u\[\033[m\]@\[\033[34m\]\h\[\033[0m\].\[\033[36m\]\l\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[34;1m\]'
+      fi
+    else
+      if [[ $termdir = 1 ]]; then
+        PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[34m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[34;1m\]'
+      else
+      PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[34m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[34;1m\]'
+      fi
+    fi
+  fi
+  
+  PS1="\[\033[2K\]$PS1\$\[\033[0m\] "
+}
+
+_____dir__update__bashrc_
+

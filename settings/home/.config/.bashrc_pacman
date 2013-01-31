@@ -1,0 +1,19 @@
+#################################################################################################
+##  Package management
+#################################################################################################
+
+function pacsize
+{
+    echo $(( $((pacman -Ql "$@" | grep -v '/$' | cut -d \  -f 2 | xargs du -b | cut -d "$(echo -e '\t')" -f 1 | sed -e 's/$/ +/g' ; echo 0) | xargs echo) ))
+}
+
+alias Pacman="sudo yaourt"
+
+alias aur="sudo yaourt --aur"
+
+alias pacman="sudo pacman-color"
+
+alias aur-git-list="pacman -Q | grep -- -git | cut -d \  -f 1"
+
+alias aur-git='sudo yaourt --aur -S $(echo `pacman -Q | grep -- -git | cut -d \  -f 1`)'
+

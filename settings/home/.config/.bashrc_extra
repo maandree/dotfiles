@@ -1,0 +1,49 @@
+#################################################################################################
+##  Release unification and bug and functionallity workarounds
+#################################################################################################
+
+#Release unification and bug workaround for VLC
+if [ "$TERM" = "linux" ]; then
+    function nvlc1
+    {
+	(palette-reset; sleep 0.5; palette-reset; sleep 0.5; palette-reset) & 
+	22:00 /usr/bin/nvlc --no-video "$@" || echo -n ''
+    }
+    function nvlc2
+    {
+	stty icanon echo icrnl -echoctl -ixoff ixon onlcr iutf8
+	palette-reset
+    }
+    function nvlc
+    {
+	nvlc1 "$@"
+	nvlc2
+    }
+else
+    alias nvlc="22:00 nvlc --no-video"
+fi
+
+alias mplayer="mplayer -softvol -msgcolor"
+alias nplayer="mplayer -softvol -novideo"
+
+if [ "$TERM" = "linux" ]; then
+    function ponysay_nopal
+    {
+	export PONYSAY_KMS_PALETTE=``
+	export PONYSAY_KMS_PALETTE_CMD=``
+	/usr/bin/ponysay "$@"
+	palette-reset
+    }
+    function ponysay
+    {
+	export PONYSAY_KMS_PALETTE=`palette-reset`
+	/usr/bin/ponysay "$@"
+	palette-reset
+    }
+    function unisay
+    {
+	/usr/bin/unisay "$@"
+	palette-reset
+    }
+fi
+

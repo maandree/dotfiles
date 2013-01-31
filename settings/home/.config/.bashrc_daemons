@@ -1,0 +1,10 @@
+#################################################################################################
+##  Daemons
+#################################################################################################
+
+alias start-gpm='sudo gpm -m /dev/input/mice -t imps2'
+
+alias stop-gpm='sudo gpm -k'
+
+alias restart-network='sudo /etc/rc.d/network restart'
+

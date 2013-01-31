@@ -1,0 +1,14 @@
+#################################################################################################
+##  Boots
+#################################################################################################
+
+alias boot-re='shutdown -f now'
+
+#### THESE SHOULD BE UPDATED!
+
+alias boot-linux='rm /etc/inittab ; cat /etc/inittab.linux > /etc/inittab ; rm /etc/rc.conf ; cat /etc/rc.conf.linux > /etc/rc.conf ; echo -e "\nLinux VT while agetty in all tty:s will start at next reboot\nType \e[31mboot-mate\e[0m to reset.\n"'
+
+alias boot-mate='rm /etc/inittab ; cat /etc/inittab.mate > /etc/inittab ; rm /etc/rc.conf ; cat /etc/rc.conf.mate > /etc/rc.conf ; echo -e "\nMATE will be start at next reboot, 20 agettys will be openned in Linux VT.\nThis is default mode, type \e[32mboot-linux\e[0m for Linux VT with agettys in all tty:s.\n"'
+
+alias boot-x='rm /etc/inittab ; cat /etc/inittab.x > /etc/inittab ; rm /etc/rc.conf ; cat /etc/rc.conf.x > /etc/rc.conf ; echo -e "\nLinux VT will be start at next reboot, 20 agettys will be openned in Linux VT.\nType \e[32mboot-linux\e[0m for Linux VT with agettys in all tty:s.\n"'
+
