@@ -1,0 +1,188 @@
+# Config file for Syslinux -
+# /boot/syslinux/syslinux.cfg
+#
+# Comboot modules:
+#   * menu.c32 - provides a text menu
+#   * vesamenu.c32 - provides a graphical menu
+#   * chain.c32 - chainload MBRs, partition boot sectors, Windows bootloaders
+#   * hdt.c32 - hardware detection tool
+#   * reboot.c32 - reboots the system
+#   * poweroff.com - shutdown the system
+#
+# To Use: Copy the respective files from /usr/lib/syslinux to /boot/syslinux.
+# If /usr and /boot are on the same file system, symlink the files instead
+# of copying them.
+#
+# If you do not use a menu, a 'boot:' prompt will be shown and the system
+# will boot automatically after 5 seconds.
+#
+# Please review the wiki: https://wiki.archlinux.org/index.php/Syslinux
+# The wiki provides further configuration examples
+
+SERIAL 0 38400
+DEFAULT arch
+PROMPT 0        # Change to 1 if you do not want to use a menu
+TIMEOUT 100
+# You can create syslinux keymaps with the keytab-lilo tool
+#KBDMAP de.ktl
+
+# Menu Configuration
+# Either menu.c32 or vesamenu32.c32 must be copied to /boot/syslinux 
+#UI menu.c32
+UI vesamenu.c32
+
+# Refer to http://syslinux.zytor.com/wiki/index.php/Doc/menu
+MENU TITLE Arch Linux
+MENU BACKGROUND splash.png
+MENU WIDTH 78
+MENU MARGIN 4
+MENU ROWS 6
+MENU VSHIFT 10
+MENU TIMEOUTROW 13
+MENU TABMSGROW 11
+MENU CMDLINEROW 11
+MENU HELPMSGROW 16
+MENU HELPMSGENDROW 29
+
+MENU COLOR border       30;44   #40ffffff #a0000000 std
+MENU COLOR title        1;36;44 #9033ccff #a0000000 std
+MENU COLOR sel          7;37;40 #e0ffffff #20ffffff all
+MENU COLOR unsel        37;44   #50ffffff #a0000000 std
+MENU COLOR help         37;40   #c0ffffff #a0000000 std
+MENU COLOR timeout_msg  37;40   #80ffffff #00000000 std
+MENU COLOR timeout      1;37;40 #c0ffffff #00000000 std
+MENU COLOR msg07        37;40   #90ffffff #a0000000 std
+MENU COLOR tabmsg       31;40   #30ffffff #00000000 std
+
+# boot sections follow
+#
+# TIP: If you want a 1024x768 framebuffer, add "vga=773" to your kernel line.
+#
+#-*
+
+# (0) Arch Linux
+LABEL arch
+    MENU LABEL Arch Linux
+    TEXT HELP
+    Boot Arch Linux from your hard drive
+    ENDTEXT
+    LINUX ../vmlinuz-linux
+    APPEND root=/dev/mapper/ArchCrypt cryptdevice=/dev/sda2:ArchCrypt ro video=1366x768 vga=0x0318
+    INITRD ../initramfs-linux.img
+
+LABEL haiku
+    MENU LABEL Haiku
+    TEXT HELP
+    Boot Haiku from your hard drive
+    ENDTEXT
+    COM32 chain.c32
+    APPEND hd0 4
+
+# (0) Arch Linux Runlevel 1
+LABEL arch1
+    MENU LABEL Arch Linux Runlevel 1
+    TEXT HELP
+    Boot Arch Linux from your hard drive with runlevel 1
+    ENDTEXT
+    LINUX ../vmlinuz-linux
+    APPEND root=/dev/mapper/ArchCrypt cryptdevice=/dev/sda2:ArchCrypt ro video=1366x768 vga=0x0318 1
+    INITRD ../initramfs-linux.img
+
+# (0) Arch Linux Runlevel 2
+LABEL arch2
+    MENU LABEL Arch Linux Runlevel 2
+    TEXT HELP
+    Boot Arch Linux from your hard drive with runlevel 2
+    ENDTEXT
+    LINUX ../vmlinuz-linux
+    APPEND root=/dev/mapper/ArchCrypt cryptdevice=/dev/sda2:ArchCrypt ro video=1366x768 vga=0x0318 2
+    INITRD ../initramfs-linux.img
+
+# (0) Arch Linux Runlevel 3
+LABEL arch3
+    MENU LABEL Arch Linux Runlevel 3
+    TEXT HELP
+    Boot Arch Linux from your hard drive with runlevel 3
+    ENDTEXT
+    LINUX ../vmlinuz-linux
+    APPEND root=/dev/mapper/ArchCrypt cryptdevice=/dev/sda2:ArchCrypt ro video=1366x768 vga=0x0318 3
+    INITRD ../initramfs-linux.img
+
+# (0) Arch Linux Runlevel 4
+LABEL arch4
+    MENU LABEL Arch Linux Runlevel 4
+    TEXT HELP
+    Boot Arch Linux from your hard drive with runlevel 4
+    ENDTEXT
+    LINUX ../vmlinuz-linux
+    APPEND root=/dev/mapper/ArchCrypt cryptdevice=/dev/sda2:ArchCrypt ro video=1366x768 vga=0x0318 4
+    INITRD ../initramfs-linux.img
+
+# (0) Arch Linux Runlevel 5
+LABEL arch5
+    MENU LABEL Arch Linux Runlevel 5
+    TEXT HELP
+    Boot Arch Linux from your hard drive with runlevel 5
+    ENDTEXT
+    LINUX ../vmlinuz-linux
+    APPEND root=/dev/mapper/ArchCrypt cryptdevice=/dev/sda2:ArchCrypt ro video=1366x768 vga=0x0318 5
+    INITRD ../initramfs-linux.img
+
+# (0) Arch Linux Runlevel 7
+LABEL arch7
+    MENU LABEL Arch Linux Runlevel 7
+    TEXT HELP
+    Boot Arch Linux from your hard drive with runlevel 7
+    ENDTEXT
+    LINUX ../vmlinuz-linux
+    APPEND root=/dev/mapper/ArchCrypt cryptdevice=/dev/sda2:ArchCrypt ro video=1366x768 vga=0x0318 7
+    INITRD ../initramfs-linux.img
+
+# (0) Arch Linux (normal vga)
+LABEL archdef
+    MENU LABEL Arch Linux (normal vga)
+    TEXT HELP
+    Boot Arch Linux from your hard drive without setting resolution
+    ENDTEXT
+    LINUX ../vmlinuz-linux
+    APPEND root=/dev/mapper/ArchCrypt cryptdevice=/dev/sda2:ArchCrypt ro
+    INITRD ../initramfs-linux.img
+
+# (1) Arch Linux Fallback
+LABEL archfallback
+    MENU LABEL Arch Linux Fallback
+    TEXT HELP
+    Boot fallback image of Arch Linux from your hard drive
+    ENDTEXT
+    LINUX ../vmlinuz-linux
+    APPEND root=/dev/mapper/ArchCrypt cryptdevice=/dev/sda2:ArchCrypt ro
+    INITRD ../initramfs-linux-fallback.img
+
+LABEL mem
+    MENU LABEL Memtest86+
+    TEXT HELP
+    Perform a RAM memory test
+    ENDTEXT
+    LINUX ../memtest86+/memtest.bin
+
+LABEL hdt
+    MENU LABEL HDT (Hardware Detection Tool)
+    TEXT HELP
+    Perform a hardware detection
+    ENDTEXT
+    COM32 hdt.c32
+
+LABEL reboot
+    MENU LABEL Reboot
+    TEXT HELP
+    Reboot the computer
+    ENDTEXT
+    COM32 reboot.c32
+
+LABEL off
+    MENU LABEL Power Off
+    TEXT HELP
+    Turn off the computer
+    ENDTEXT
+    COMBOOT poweroff.com
+
