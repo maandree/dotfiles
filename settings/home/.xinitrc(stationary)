@@ -4,8 +4,18 @@ default_session=xmonad
 xmonad_mate=0
 
 if [ "$SESSION" = "mate" ]; then
+    rm ~/.mateconf
+    ln -s ~/.mateconf.mate ~/.mateconf
+    mateconftool-2 --type string --set "/desktop/mate/session/required_components/filemanager" "caja"
+    mateconftool-2 --type string --set "/desktop/mate/session/required_components/panel" "mate-panel"
+    mateconftool-2 --type string --set "/desktop/mate/session/required_components/windowmanager" "marco"
     SESSION=mate-session
 elif [ "$SESSION" = "xmonad-mate" ]; then
+    rm ~/.mateconf
+    ln -s ~/.mateconf.xmonad ~/.mateconf
+    mateconftool-2 --type string --set "/desktop/mate/session/required_components/filemanager" "false"
+    mateconftool-2 --type string --set "/desktop/mate/session/required_components/panel" "mate-panel"
+    mateconftool-2 --type string --set "/desktop/mate/session/required_components/windowmanager" "xmonad"
     xmonad_mate=1
     SESSION=xmonad
 elif [ "$SESSION" = "gnome" ]; then
@@ -63,8 +73,8 @@ xbindkeys &
 if [ "$SESSION" = "xmonad" ]; then
     xcompmgr -r 12 -o 0.75 -l 5 -t 5 -I 0.1 -O 0.1 -D 10 -cfn &
 fi
-if [ "$SESSION" = "xmonad" ] && [ $xmonad_mate = 1 ]; then
-    (sleep 0.5 ; mate-session) &
+if [ $xmonad_mate = 1 ]; then
+    xcompmgr -r 12 -o 0.75 -l 5 -t 5 -I 0.1 -O 0.1 -D 10 -cfn &
 fi
 
 # start session
