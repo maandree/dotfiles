@@ -93,3 +93,23 @@ alias s="java7 -cp ~/git/schema/bin/ se.kth.maandree.mastertimekeeper.Program ~/
 
 alias q="ponymenu"
 
+function pget()
+{
+  i=3
+  wget "$1" -O - 2>/dev/null |
+    grep '<iframe' |
+    grep -Po 'src="(.+)"' |
+    cut -d ' ' -f 1 |
+    sed -e 's_src=__g' -e 's_"__g' |
+    while read url; do
+	youtube-dl "$url" 2>&1;
+    done |
+    tee /dev/stderr |
+    grep '.download. Destination: ' |
+    sed -e 's_.download. Destination: __g' |
+    while read line; do
+       mv -- "$line" "$2${@:$i:1}"
+       (( i++ ))
+    done
+}
+
