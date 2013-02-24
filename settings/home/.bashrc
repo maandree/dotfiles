@@ -4,6 +4,7 @@
 
 export PATH="$(echo ~)/.local/bin:$PATH"
 export GPG_KEY=69E7C5ED
+export GPG_KEYA=45668AAD
 
 
 
