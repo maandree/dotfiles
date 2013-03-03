@@ -93,6 +93,7 @@ fi
 alias s="java7 -cp ~/git/schema/bin/ se.kth.maandree.mastertimekeeper.Program ~/maandree.schema"
 
 alias q="ponymenu"
+alias m="make"
 
 function pget()
 {
