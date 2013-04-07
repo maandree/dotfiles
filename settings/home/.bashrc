@@ -115,7 +115,7 @@ function pget()
     done
 }
 
-alias jblive-video='vlc rtsp://videocdn-us.geocdn.scaleengine.net/jblive/live/jblive.stream 2>/dev/null'
+alias jblive-video='vlc http://videocdn-us.geocdn.scaleengine.net/jblive-iphone/live/jblive.stream/playlist.m3u8 2>/dev/null'
 alias jblive-irc='irssi --connect=irc.geekshed.net'
-alias jblive='vlc rtsp://videocdn-us.geocdn.scaleengine.net/jblive/live/jblive.stream 2>/dev/null & irssi --connect=irc.geekshed.net'
+alias jblive='vlc http://videocdn-us.geocdn.scaleengine.net/jblive-iphone/live/jblive.stream/playlist.m3u8 2>/dev/null & irssi --connect=irc.geekshed.net'
 
