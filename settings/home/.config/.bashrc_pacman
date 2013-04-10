@@ -11,7 +11,7 @@ alias Pacman="sudo yaourt"
 
 alias aur="sudo yaourt --aur"
 
-alias pacman="sudo pacman-color"
+alias pacman="sudo pacman"
 
 alias aur-git-list="pacman -Q | grep -- -git | cut -d \  -f 1"
 
