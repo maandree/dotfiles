@@ -19,12 +19,6 @@ function recomplete()
 	    . $completionscript
 	done
     fi
-    if [ -d /usr/share/bash-completion/completions ] && ! shopt -oq posix; then
-	completionscripts=( /usr/share/bash-completion/completions/"*" )
-	for completionscript in $completionscripts; do
-	    . $completionscript
-	done
-    fi
 
 
     if [ -f /etc/bash_opt ]; then
