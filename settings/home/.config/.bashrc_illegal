@@ -6,7 +6,7 @@
 if [ "$TERM" = "dumb" ]; then
     alias startx="echo -e '\e[1;31mDo not start an X session from a dumb terminal!\e[0m'"
     alias xinit="echo -e '\e[1;31mDo not start an X session from a dumb terminal!\e[0m'"
-elif [ "$TERM" != "linux" ]; then
+elif [ "$TERM" != "linux" ] || [ "$DISPLAY" != "" ]; then
     alias startx="echo -e '\e[1;31mNever start an X session from within an X session!\e[0m'"
     alias xinit="echo -e '\e[1;31mNever start an X session from within an X session!\e[0m'"
 fi
