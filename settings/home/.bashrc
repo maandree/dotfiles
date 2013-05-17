@@ -49,7 +49,7 @@ export GPG_KEYA=45668AAD
 #[ -x /usr/bin/lesspipe.sh ] && eval "$(SHELL=/bin/sh /usr/bin/lesspipe.sh)"
 
 
-# If not running interactively, don't do anything
+# If not running interactively, do not do anything
 [ -z "$PS1" ] && return
 
 
