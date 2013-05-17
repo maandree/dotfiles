@@ -11,6 +11,11 @@ function gitcom
     git commit --signoff -m "$*"
 }
 
+function gitcomm
+{
+    git commit --signoff -S"$GPG_KEY" -m "$*"
+}
+
 function _____gp___bashrc_
 {
     echo "$2"
