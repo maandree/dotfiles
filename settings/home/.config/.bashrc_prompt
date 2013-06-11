@@ -77,7 +77,7 @@ termdual=1
 function ___d_brc_
 {
     if [[ $termdual = 1 ]]; then
-	echo '\[\033[0m\033[C\033[D\]\n\[\033[2K\]'
+	echo '\[\033[0m\033[C\033[D\]\n\[\033[1K\]'
     fi
 }
 
@@ -136,12 +136,12 @@ function _____dir__update__bashrc_
       if [[ $termdir = 1 ]]; then
         PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[34m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]\w$(____clock__bashrc_)'`___d_brc_`'\[\033[34;1m\]'
       else
-      PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[34m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[34;1m\]'
+        PS1='\[\033[0;34m\]\u\[\033[m\]@\[\033[34m\]\h\[\033[0m\]:$(_____bran__bashrc_) \[\033[35m\]...$(____clock__bashrc_)'`___d_brc_`'\[\033[34;1m\]'
       fi
     fi
   fi
   
-  PS1="\[\033[2K\]$PS1\$\[\033[0m\] "
+  PS1="$PS1\$\[\033[0m\] "
 }
 
 _____dir__update__bashrc_

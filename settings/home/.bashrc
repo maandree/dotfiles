@@ -5,6 +5,7 @@
 export PATH="$(echo ~)/.local/bin:$PATH"
 export GPG_KEY=69E7C5ED
 export GPG_KEYA=45668AAD
+export GPG_SPIKE=C2D65CA7
 
 
 
@@ -77,7 +78,7 @@ fi
 . ~/.config/.bashrc_daemons
 . ~/.config/.bashrc_modprobe
 . ~/.config/.bashrc_pdf
-. ~/.config/.bashrc_main
+. ~/.config/.bashrc_mane
 . ~/.config/.bashrc_boot
 . ~/.config/.bashrc_encryption
 
@@ -118,4 +119,18 @@ function pget()
 alias jblive-video='vlc http://videocdn-us.geocdn.scaleengine.net/jblive-iphone/live/jblive.stream/playlist.m3u8 2>/dev/null'
 alias jblive-irc='irssi --connect=irc.geekshed.net'
 alias jblive='vlc http://videocdn-us.geocdn.scaleengine.net/jblive-iphone/live/jblive.stream/playlist.m3u8 2>/dev/null & irssi --connect=irc.geekshed.net'
+
+function spike-commit
+{
+    if [ "$*" == "" ]; then
+        git commit --gpg-sign=$GPG_SPIKE --signoff
+    else
+        git commit --gpg-sign=$GPG_SPIKE --signoff --message="$*"
+    fi
+}
+
+function spike-amend
+{
+    git commit --gpg-sign=$GPG_SPIKE --signoff --amend
+}
 
