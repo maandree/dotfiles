@@ -3,37 +3,43 @@
 Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
        , bgColor = "black"
        , fgColor = "grey"
-       , position = Bottom
+       , position = Static { xpos = 0 , ypos = 12, width = 1791, height = 12 }
+       , border = NoBorder
+       , borderColor = "black"
+       , persistent = False
+       , allDesktops = False
+       , overrideRedirect = True
+       , hideOnStart = False
        , lowerOnStart = True
        , commands = [ Run Network "eth0" [ "-L", "0"
                                          , "-H", "32"
                                          , "--normal", "#32A679"
                                          , "--high", "#CD656C"
                                          ] 5
-                    , Run Cpu [ "-L", "5"
-                              , "-H", "50"
-                              , "--normal", "#32A679"
-                              , "--high", "#CD656C"
-                              ] 5
+                    , Run MultiCpu [ "-L", "5"
+                                   , "-H", "50"
+                                   , "--normal", "#32A679"
+                                   , "--high", "#CD656C"
+                                   , "-t", "Cpu: <total0>% <total1>% <total2>% <total3>% : <total>%"
+                                   ] 5
                     , Run Memory [ "-t", "Mem: <usedratio>%"
                                  ] 5
                     , Run Swap [] 5
                     , Run Com "uname" ["-o", "-r", "-n"] "" 36000
                     , Run Date "%Y-(%m)%b-%d %T, %a w%W/%V, %Z" "date" 5
---                    , Run Com "sh" ["-c", "amixer -c 0 | head --lines 19 | tail --lines 2 | cut -d ' ' -f 7 | cut -d '[' -f 2 | xargs echo 'Vol:' | sed -e 's_]__g'"] "vol" 50
                     , Run Com "sh" ["-c", "'amixer -c 0 -- get PCM | tail --lines 2 | cut -d [ -f 2 | xargs echo Vol: | sed -e s_]__g'"] "vol" 50
+                    , Run Weather "ESSA" [ "-t", "<station>: <tempC>°C"
+                                         , "-L", "18"
+                                         , "-H", "25"
+                                         , "--normal", "#32A679"
+                                         , "--high", "#CD656C"
+                                         , "--low", "#2495BE"
+                                         ] 36000
+                    , Run Kbd [("se", "SE"), ("gr", "GR"), ("se(svdvorak)", "SE²")]
+                    --, Run Locks  -- %locks%
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "<fc=#2495BE>%date%</fc> }{ %vol% │ %cpu% │ %memory% │ %swap% │ %eth0% │ %uname%"
+       , template = "<fc=#2495BE>%date%</fc> │ %ESSA% }{ %vol% │ %multicpu% │ %memory% │ %swap% │ %eth0% │ Kbd: %kbd% │ %uname%"
        }
 
--- %a %b %_d %Y %H:%M:%S
-
--- Run Weather "EGPF" [ "-t", "<station>: <tempC>°C"
---                   ,  "-L", "18"
---                   ,  "-H", "25"
---                   ,  "--normal", "#32A679"
---                   ,  "--high", "#CD656C"
---                   ,  "--low", "#2495BE"
---                   ] 36000

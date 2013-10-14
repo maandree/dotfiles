@@ -1,43 +1,129 @@
 #!/bin/sh
 
 default_session=xmonad
-xmonad_mate=0
 
+SESSION_="$SESSION"
+SESSION="${SESSION/2$/}"
 if [ "$SESSION" = "mate" ]; then
-    rm ~/.mateconf
-    ln -s ~/.mateconf.mate ~/.mateconf
-    mateconftool-2 --type string --set "/desktop/mate/session/required_components/filemanager" "caja"
-    mateconftool-2 --type string --set "/desktop/mate/session/required_components/panel" "mate-panel"
-    mateconftool-2 --type string --set "/desktop/mate/session/required_components/windowmanager" "marco"
     SESSION=mate-session
-elif [ "$SESSION" = "xmonad-mate" ]; then
-    rm ~/.mateconf
-    ln -s ~/.mateconf.xmonad ~/.mateconf
-    mateconftool-2 --type string --set "/desktop/mate/session/required_components/filemanager" "false"
-    mateconftool-2 --type string --set "/desktop/mate/session/required_components/panel" "mate-panel"
-    mateconftool-2 --type string --set "/desktop/mate/session/required_components/windowmanager" "xmonad"
-    xmonad_mate=1
-    SESSION=xmonad
 elif [ "$SESSION" = "gnome" ]; then
     SESSION=gnome-session
-elif [ "$SESSION" = "enlightenment" ]; then
-    SESSION=enlightenment_start
+elif [ "$SESSION" = "cinnamon" ]; then
+    SESSION=cinnamon-session #-cinnamon
+elif [ "$SESSION" = "cinnamon2d" ]; then
+    SESSION=cinnamon-session-cinnamon2d
+
+## Tiling and dynamic
+
+elif [ "$SESSION" = "xmonad" ];         then  SESSION=xmonad             ### xmonad
+elif [ "$SESSION" = "ratpoison" ];      then  SESSION=ratpoison            # ratpoison + dratmenu
+elif [ "$SESSION" = "dwm" ];            then  SESSION=dwm                  # dwm
+elif [ "$SESSION" = "wmii" ];           then  SESSION=wmii                 # wmii
+elif [ "$SESSION" = "wingo" ];          then  SESSION=wingo                # wingo-git
+elif [ "$SESSION" = "qtile" ];          then  SESSION=qtile                # qtile-git
+elif [ "$SESSION" = "spectrwm" ];       then  SESSION=spectrwm            ## spectrwm-libre
+elif [ "$SESSION" = "snapwm" ];         then  SESSION=snapwm               # snapwm-stable
+elif [ "$SESSION" = "musca" ];          then  SESSION=musca                # musca
+elif [ "$SESSION" = "monsterwm" ];      then  SESSION=monsterwm            # monsterwm-git
+elif [ "$SESSION" = "awesome" ];        then  SESSION=awesome             ## awesome
+elif [ "$SESSION" = "i3" ];             then  SESSION=i3                  ## i3-wm + i3status
+elif [ "$SESSION" = "bspwm" ];          then  SESSION=bspwm               ## bspwm
+elif [ "$SESSION" = "herbstluftwm" ];   then  SESSION=herbstluftwm         # herbstluftwm
+elif [ "$SESSION" = "notion" ];         then  SESSION=notion               # notion
+elif [ "$SESSION" = "subtle" ];         then  SESSION=subtle               # subtle
+elif [ "$SESSION" = "wmfs" ];           then  SESSION=wmfs                 # wmfs
+elif [ "$SESSION" = "wmfs2" ];          then  SESSION=wmfs2                # wmfs2-git # conflicts with wmfs and does not allow another X session to be running
+elif [ "$SESSION" = "echinus" ];        then  SESSION=echinus              # echinus + ourico
+
+## Stacking
+
+elif [ "$SESSION" = "twm" ];            then  SESSION=twm                ### xorg-twm
+elif [ "$SESSION" = "2bwm" ];           then  SESSION=2bwm                 # 2bwm
+elif [ "$SESSION" = "aewm" ];           then  SESSION=aewm                 # aewm
+elif [ "$SESSION" = "afterstep" ];      then  SESSION=afterstep            # afterstep
+elif [ "$SESSION" = "blackbox" ];       then  SESSION=blackbox             # blackbox
+elif [ "$SESSION" = "evilwm" ];         then  SESSION=evilwm               # evilwm
+elif [ "$SESSION" = "fluxbox" ];        then  SESSION=fluxbox            ### fluxbox
+elif [ "$SESSION" = "fvwm" ];           then  SESSION=fvwm                 # fvwm
+elif [ "$SESSION" = "goomwwm" ];        then  SESSION=goomwwm              # goomwwm
+elif [ "$SESSION" = "icewm" ];          then  SESSION=icewm                # icewm
+elif [ "$SESSION" = "jwm" ];            then  SESSION=jwm                  # jwm
+elif [ "$SESSION" = "karmen" ];         then  SESSION=karmen               # karmen
+elif [ "$SESSION" = "openbox" ];        then  SESSION=openbox              # openbox
+elif [ "$SESSION" = "pekwm" ];          then  SESSION=pekwm                # pekwm
+elif [ "$SESSION" = "tinywm" ];         then  SESSION=tinywm               # tinywm
+elif [ "$SESSION" = "windowlab" ];      then  SESSION=windowlab            # windowlab
+elif [ "$SESSION" = "windowmaker" ];    then  SESSION=wmaker               # windowmaker
+elif [ "$SESSION" = "matwm2" ];         then  SESSION=matwm2               # matwm2-svn
+elif [ "$SESSION" = "wm2" ];            then  SESSION=wm2                  # wm2
+elif [ "$SESSION" = "lxde" ];           then  SESSION=lxsession          ### lxsession + %lxde
+elif [ "$SESSION" = "kde" ];            then  SESSION=startkde             # %kde
+elif [ "$SESSION" = "enlightenment" ];  then  SESSION=enlightenment_start  # enlightenment17
+elif [ "$SESSION" = "xfce4" ];          then  SESSION=startxfce4         ### %xfce4 + %xfce4-goodies
+elif [ "$SESSION" = "xfce" ];           then  SESSION=startxfce4           # -- alias for xfce4 --
+
+## local + default
+
+elif [ "$SESSION" = "rarity" ];         then  SESSION=rarity
 elif [ "$SESSION" = "" ]; then
     SESSION="$default_session"
+    SESSION_="$SESSION"
 fi
 
+# set dconf profile
+
+if [ ! "$SET_DCONF_PROFILE" = 0 ]; then
+    export DCONF_PROFILE=~/.config/dconf/profiles/"${SESSION/-/_}"
+    
+    mkdir -p ~/.config/dconf/profiles
+    
+    if [ ! -e ~/.config/dconf/profiles/"${SESSION/-/_}" ]; then
+	cat > ~/.config/dconf/profiles/"${SESSION/-/_}" <<EOF
+user-db:$SESSION
+user-db:user
+system-db:local
+system-db:site
+EOF
+    fi
+    
+    if [ ! -e ~/.config/dconf/"${SESSION/-/_}" ] && [ -e ~/.config/dconf/user ]; then
+	cp ~/.config/dconf/user ~/.config/dconf/"${SESSION/-/_}"
+    fi
+fi
+
+# export DESKTOP_SESSION
+
+if [ ! "$SET_DESKTOP_SESSION" = 0 ]; then
+    export DESKTOP_SESSION="$SESSION"
+fi
+
+# start GTK2 settings daemon
+
+if [ ! "$SESSION" = "mate-session" ] && [ ! "$SESSION" = "lxde" ]; then
+   /usr/lib/mate-settings-daemon/mate-settings-daemon &
+   sleep 0.5
+fi
 
 # set screen layout, resolution and calibration
 
-xrandr --output DVI-0 --gamma 0.97:0.97:0.97 --brightness 1.00 --mode 1600x1200 --rate 85 --primary  --output VGA-0 --gamma 0.99:0.99:0.99 --brightness 0.85 --mode 1600x1200 --rate 75 --left-of DVI-0
-
-# set font settings and potentionally other resources
-
-if [ -f "/etc/X11/xinit/.Xresources" ]; then
-    xrdb -merge "/etc/X11/xinit/.Xresources"
+if [ "${SWAP_SCREENS}" = y ]; then
+    xrandr --output DVI-0 --gamma 0.99:1.00:1.02 --brightness 1.00 --mode 1792x1344 --rate 75 --primary \
+           --output VGA-0 --gamma 0.99:1.00:1.02 --brightness 1.00 --mode 1792x1344 --rate 75 --right-of DVI-0 ||
+    xrandr --output VGA-0 --gamma 0.99:1.00:1.02 --brightness 1.00 --mode 1792x1344 --rate 75 --primary
+else
+    xrandr --output DVI-0 --gamma 0.99:1.00:1.02 --brightness 1.00 --mode 1792x1344 --rate 75 --primary \
+           --output VGA-0 --gamma 0.99:1.00:1.02 --brightness 1.00 --mode 1792x1344 --rate 75 --left-of DVI-0 ||
+    xrandr --output DVI-0 --gamma 0.99:1.00:1.02 --brightness 1.00 --mode 1792x1344 --rate 75 --primary
 fi
-if [ -f "$HOME/.Xresources" ]; then
-    xrdb -merge "$HOME/.Xresources"
+
+# set cursor to right handed pointer
+
+xsetroot -cursor_name left_ptr
+
+# tell Java if we are using a non-reparenting window manager
+
+if [ "$SESSION" = "xmonad" ]; then
+    export _JAVA_AWT_WM_NONREPARENTING=1
 fi
 
 # set keyboard settings
@@ -51,10 +137,21 @@ if [ -f "$HOME/.Xmodmap" ]; then
     xmodmap "$HOME/.Xmodmap" &
 fi
 
+# set font settings and potentionally other resources
+
+if [ -f "/etc/X11/xinit/.Xresources" ]; then
+    xrdb -merge "/etc/X11/xinit/.Xresources"
+fi
+if [ -f "$HOME/.Xresources" ]; then
+    xrdb -merge "$HOME/.Xresources"
+fi
+
 # set background
 
-if [ -f ~/.background ] ; then
-    feh --bg-max ~/.background
+if [ -f ~/.background."${SESSION_}" ] ; then
+    feh --bg-fill ~/.background."${SESSION_}"
+elif [ -f ~/.background ] ; then
+    feh --bg-fill ~/.background
 fi
 
 # start some nice programs
@@ -68,16 +165,31 @@ fi
 
 xbindkeys &
 
+# start session programs depending on session
+
+if [ "$SESSION" = "twm" ]; then
+    xmobar -b &
+elif [ "$SESSION" = "fluxbox" ]; then
+    xmobar -o &
+elif [ "$SESSION" = "lxsession" ]; then
+    export PATH=~/.local/antimate:"$PATH"
+elif [ "$SESSION" = "startxfce4" ]; then
+    export PATH=~/.local/antimate:"$PATH"
+elif [ "$SESSION" = "xmonad" ]; then
+    mate-panel &
+fi
+
 # start composition manager
 
-if [ "$SESSION" = "xmonad" ]; then
-    xcompmgr -r 12 -o 0.75 -l 5 -t 5 -I 0.1 -O 0.1 -D 10 -cfn &
-fi
-if [ $xmonad_mate = 1 ]; then
+if [ ! "$SESSION" = "mate" ] && [ ! "$SESSION" = "enlightenment_start" ]; then
     xcompmgr -r 12 -o 0.75 -l 5 -t 5 -I 0.1 -O 0.1 -D 10 -cfn &
 fi
 
 # start session
 
-exec ck-launch-session "$SESSION"
+if [ "$SESSION" = "twm" ]; then
+    exec $SESSION_WRAPPER "$SESSION"
+else
+    exec ck-launch-session $SESSION_WRAPPER "$SESSION"
+fi
 
