@@ -3,7 +3,7 @@
 Config { font = "-misc-fixed-*-*-*-*-10-*-*-*-*-*-*-*"
        , bgColor = "black"
        , fgColor = "grey"
-       , position = Static { xpos = 0 , ypos = 12, width = 1791, height = 12 }
+       , position = Static { xpos = 1792 , ypos = 12, width = 1792, height = 12 }
        , border = NoBorder
        , borderColor = "black"
        , persistent = False
