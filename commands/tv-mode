@@ -1,0 +1,44 @@
+#!/bin/sh
+
+if [ $# = 1 ]; then
+    WITH_TV="$1"
+    if [ "${WITH_TV}" = 1 ]; then
+	WITH_TV=y
+    fi
+fi
+
+kill $(pgrep '^xmobar$')
+kill $(pgrep '^dzen2$')
+
+if [ "${SWAP_SCREENS}" = y ]; then
+    if [ "${WITH_TV}" = y ]; then
+	xrandr --output DVI-0 --gamma 0.99:1.00:1.02 --brightness 1.00 --mode 1792x1344 --rate 75 --primary
+               --output VGA-0 --gamma 1.00:1.00:1.00 --brightness 1.00 --mode 1920x1080 --rate 60 --right-of DVI-0
+    else
+	xrandr --output DVI-0 --gamma 0.99:1.00:1.02 --brightness 1.00 --mode 1792x1344 --rate 75 --primary \
+               --output VGA-0 --gamma 0.99:1.00:1.02 --brightness 1.00 --mode 1792x1344 --rate 75 --right-of DVI-0 ||
+	xrandr --output VGA-0 --gamma 0.99:1.00:1.02 --brightness 1.00 --mode 1792x1344 --rate 75 --primary
+    fi
+elif [ ! "${SWAP_SCREENS}" = neither ]; then
+    if [ "${WITH_TV}" = y ]; then
+	xrandr --output DVI-0 --gamma 0.99:1.00:1.02 --brightness 1.00 --mode 1792x1344 --rate 75 --primary \
+               --output VGA-0 --gamma 1.00:1.00:1.00 --brightness 1.00 --mode 1920x1080 --rate 60 --left-of DVI-0
+    else
+	xrandr --output DVI-0 --gamma 0.99:1.00:1.02 --brightness 1.00 --mode 1792x1344 --rate 75 --primary \
+               --output VGA-0 --gamma 0.99:1.00:1.02 --brightness 1.00 --mode 1792x1344 --rate 75 --left-of DVI-0 ||
+	xrandr --output DVI-0 --gamma 0.99:1.00:1.02 --brightness 1.00 --mode 1792x1344 --rate 75 --primary
+    fi
+fi
+
+if [ "${WITH_TV}" = y ]; then
+    ln -sf .xmobarrc.vt ~/.xmobarrc
+else
+    ln -sf .xmobarrc.normal ~/.xmobarrc
+fi
+
+if [ -f ~/.background."${SESSION_}" ] ; then
+    feh --bg-fill ~/.background."${SESSION_}"
+elif [ -f ~/.background ] ; then
+    feh --bg-fill ~/.background
+fi
+

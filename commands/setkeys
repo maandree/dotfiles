@@ -1,0 +1,11 @@
+#!/bin/sh
+
+setxkbmap -rules evdev -model pc105 -layout se,gr,se -variant ,,svdvorak -option terminate:ctrl_alt_bksp,ctrl:capsswap,compose:rwin,grp:lctrl_lshift_toggle,keypad:future -types complete -compat complete -synch
+
+if [ -f "/etc/X11/xinit/.Xmodmap" ]; then
+    xmodmap "/etc/X11/xinit/.Xmodmap" &
+fi
+if [ -f "$HOME/.Xmodmap" ]; then
+    xmodmap "$HOME/.Xmodmap" &
+fi
+
