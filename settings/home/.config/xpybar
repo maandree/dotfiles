@@ -1,0 +1,327 @@
+# -*- python -*-
+
+import os
+import sys
+import time
+import threading
+
+from util import *
+
+from plugins.clock import Clock
+from plugins.cpu import CPU
+from plugins.mem import Memory
+from plugins.network import Network
+from plugins.users import Users
+from plugins.pacman import Pacman
+from plugins.uname import Uname
+from plugins.weather import Weather
+from plugins.chase import Chase
+
+import Xlib.X, Xlib.protocol.event
+
+
+OUTPUT, YPOS, TOP = 0, 0, True
+
+clock_ = Clock(format = '%Y-(%m)%b-%d %T, %a w%V, %Z', sync_to = 0.5)
+text = ''
+
+
+def memory():
+    memory_ = Memory()
+    def colourise(value, format = '%.0f'):
+        colour = '39'
+        if value > 30:  colour = '32'
+        if value > 50:  colour = '33'
+        if value > 80:  colour = '31'
+        return '\033[%sm%s\033[0m%%' % (colour, format % value)
+    mem = 'Mem: ' + colourise(memory_.mem_used * 100 / memory_.mem_total)
+    swp = 'Swp: ' + colourise(memory_.swap_used * 100 / memory_.swap_total)
+    shm = 'Shm: ' + colourise(memory_.shmem * 100 / memory_.mem_total)
+    return '%s │ %s │ %s' % (mem, swp, shm)
+
+
+def users():
+    users_ = Users().users
+    you = os.environ['USER']
+    def colour_user(user):
+        if user == 'root':     return '\033[31m%s\033[39m'
+        elif not user == you:  return '\033[33m%s\033[39m'
+        else:                  return '%s'
+    users = ['%s{%i}' % (colour_user(u) % u, len(users_[u])) for u in users_.keys()]
+    users = 'Users: %s' % (' '.join(users))
+    return users
+
+
+have_linux_libre, have_pacman = True, None
+linux_installed, linux_latest = None, None
+def uname():
+    global have_linux_libre, have_pacman, linux_installed, linux_latest
+    
+    uname_ = Uname()
+    nodename = uname_.nodename
+    kernel_release = uname_.kernel_release
+    operating_system = uname_.operating_system
+    
+    lts = '-lts' if kernel_release.lower().endswith('-lts') else ''
+    if have_pacman is None:
+        have_pacman = True
+        try:
+            linux_installed = Pacman('linux-libre' + lts, True)
+        except:
+            have_linux_libre = False
+            try:
+                linux_installed = Pacman('linux' + lts, True)
+            except:
+                have_pacman = False
+        if have_pacman:
+            try:
+                linux_latest = Pacman(('linux-libre' if have_linux_libre else 'linux') + lts, False)
+            except:
+                have_pacman = None
+    elif have_pacman:
+        try:
+            linux_installed = Pacman(('linux-libre' if have_linux_libre else 'linux') + lts, True)
+            linux_latest = Pacman(('linux-libre' if have_linux_libre else 'linux') + lts, False)
+        except:
+            have_pacman = None
+    
+    if (have_pacman is not None) and have_pacman:
+        linux_running = kernel_release.split('-')
+        linux_running, kernel_release = linux_running[:2], linux_running[2:]
+        linux_running = '-'.join(linux_running)
+        kernel_release = '-' + '-'.join(kernel_release)
+        linux_installed = linux_installed.version
+        linux_latest = linux_latest.version
+        if linux_installed == linux_latest:
+            if linux_running == linux_installed:
+                linux_running = '\033[32m%s\033[39m' % linux_running
+        else:
+            if linux_running == linux_installed:
+                linux_running = '\033[33m%s\033[39m' % linux_running
+            else:
+                linux_running = '\033[31m%s\033[39m' % linux_running
+        kernel_release = linux_running + kernel_release
+    uname_ = '%s %s %s'
+    uname_ %= (nodename, kernel_release, operating_system)
+    return uname_
+
+
+net_time = time.monotonic()
+net_last = {}
+def network():
+    global net_time, net_last
+    net_now = time.monotonic()
+    net_tdiff, net_time = net_now - net_time, net_now
+    net_ = Network('lo').devices
+    def colourise(value):
+        colour = '39'
+        if value > 40:     colour = '32'
+        if value > 8000:   colour = '33'
+        if value > 60000:  colour = '31'
+        return '\033[%sm%3.0f\033[0m' % (colour, value)
+    def kbps(device, direction):
+        direction += '_bytes'
+        value = net_[device][direction]
+        if device in net_last:
+            value -= net_last[device][direction]
+        else:
+            value = 0
+        value /= 128 * net_tdiff
+        return colourise(value)
+    def KBps(device, direction):
+        direction += '_bytes'
+        value = net_[device][direction]
+        if device in net_last:
+            value -= net_last[device][direction]
+        else:
+            value = 0
+        value /= 1024 * net_tdiff
+        return value
+    net = [(dev, kbps(dev, 'rx'), KBps(dev, 'rx'), kbps(dev, 'tx'), KBps(dev, 'tx')) for dev in net_]
+    net = ['%s: %skbps(%.0fKB/s)↓ %skbps(%.0fKB/s)↑' % x for x in net]
+    net = '%s' % ' '.join(net)
+    net_last = net_
+    return net
+
+
+last_cpu_idle, last_cpu_total = 0, 0
+last_cpus_idle, last_cpus_total = [], []
+def cpu():
+    global last_cpus_idle, last_cpus_total, last_cpu_idle, last_cpu_total
+    cpu_ = CPU()
+    now_cpu_idle, now_cpus_idle = cpu_.cpu[CPU.idle], [cpu[CPU.idle] for cpu in cpu_.cpus]
+    now_cpu_total, now_cpus_total = sum(cpu_.cpu), [sum(cpu) for cpu in cpu_.cpus]
+    def cpu_usage(now_idle, now_total, last_idle, last_total):
+        total = now_total - last_total
+        idle = now_idle - last_idle
+        return None if total == 0 else (total - idle) * 100 / total
+    def colourise(value):
+        if value is None:
+            return '--%'
+        colour = '39'
+        if value >= 5:   colour = '32'
+        if value >= 50:  colour = '33'
+        if value >= 90:  colour = '31'
+        return '\033[%sm%2.0f\033[0m%%' % (colour, value)
+    if len(now_cpus_idle) > len(last_cpus_idle):
+        last_cpus_idle += now_cpus_idle[len(last_cpus_idle):]
+        last_cpus_total += now_cpus_total[len(last_cpus_total):]
+    cpus = zip(now_cpus_idle, now_cpus_total, last_cpus_idle, last_cpus_total)
+    cpus = ' '.join([colourise(cpu_usage(*c)) for c in cpus])
+    cpu = colourise(cpu_usage(now_cpu_idle, now_cpu_total, last_cpu_idle, last_cpu_total))
+    cpu = 'Cpu: %s : %s' % (cpus, cpu)
+    last_cpus_idle, last_cpus_total = now_cpus_idle, now_cpus_total
+    last_cpu_idle, last_cpu_total = now_cpu_idle, now_cpu_total
+    return cpu
+
+
+weather_last = '?'
+weather_semaphore = threading.Semaphore()
+def weather_update_():
+    global weather_last
+    if weather_semaphore.acquire(blocking = False):
+        try:
+            weather_ = Weather('ESSA').temp
+            colour = '34'
+            if weather_ < -10:  colour = '39;44'
+            if weather_ >= 18:  colour = '39'
+            if weather_ >= 25:  colour = '33'
+            if weather_ >= 30:  colour = '31'
+            weather_ = '\033[%sm%.0f\033[0m°C' % (colour, weather_)
+            weather_last = weather_
+        except:
+            if not weather_last.endswith('?'):
+                weather_last += '?'
+        weather_semaphore.release()
+weather_update = Sometimes(lambda : async(weather_update_), 20 * 60 * 2)
+def weather():
+    rc = weather_last
+    weather_update()
+    return rc
+
+
+solar_ = os.environ['HOME'] + '/.xpybar.sun'
+def sun():
+    try:
+        return 'Sun: %s' % spawn_read('blueshift', '-c', solar_)
+    except:
+        return '¿Cannot get solar information?'
+
+
+def colour_interpol(low, high, weight):
+    rl, rh = (low >> 16) & 255, (high >> 16) & 255
+    gl, gh = (low >>  8) & 255, (high >>  8) & 255
+    bl, bh = (low >>  0) & 255, (high >>  0) & 255
+    r = int(rl * (1 - weight) + rh * weight)
+    g = int(gl * (1 - weight) + gh * weight)
+    b = int(bl * (1 - weight) + bh * weight)
+    return '38;2;%i;%i;%i' % (r, g, b)
+
+def twilight(time):
+    try:
+        elevation = float(sun().split(' ')[3][:-1])
+    except:
+        elevation = 1
+    if   elevation <= -18:  elevation = '31'
+    elif elevation <= -12:  elevation = colour_interpol(bar.palette[1], bar.palette[3], 1 / 3)
+    elif elevation <=  -6:  elevation = colour_interpol(bar.palette[1], bar.palette[3], 2 / 3)
+    elif elevation <=   0:  elevation = '33'
+    elif elevation <=   6:  elevation = '39'
+    else:                   elevation = '34'
+    return '\033[%sm%s\033[00m' % (elevation, time)
+
+
+class Clocked:
+    def __init__(self, *args):
+        self.sometimes = Sometimes(*args)
+        self.text = self.sometimes()
+    def __call__(self, update = False):
+        if update:
+            self.text = self.sometimes()
+        return self.text
+
+
+functions = [ lambda *_ : text
+            
+            , Clocked(users, 1 * 2)
+            , Clocked(uname, 30 * 60 * 2)
+            
+            , Clocked(lambda : twilight(clock_.read()), 1 * 2)
+            , Clocked(cpu, 1 * 2)
+            , Clocked(memory, 1 * 2)
+            
+            , Clocked(network, 1 * 2)
+            , weather
+            , Clocked(sun, 1 * 10 * 2)
+            ]
+
+pattern = [ [ '%s',                 '%s │ %s' ]
+          , [ '%s │ %s │ %s',  '%s │ %s │ %s' ]
+          ]
+
+
+HEIGHT = len(pattern) * 12
+pattern = '\n'.join('\0'.join(p) for p in pattern)
+semaphore = threading.Semaphore()
+
+
+start_ = start
+def start():
+    start_()
+    bar.clear()
+    get_display().flush()
+    
+    def refresh():
+        global text
+        try:
+            text = input()
+        except:
+            sys.exit(0)
+        buf, esc = '', None
+        for c in text:
+            if esc is not None:
+                esc += c
+                if esc == '^':
+                    buf += '^'
+                    esc = None
+                elif esc[-1] == ')':
+                    if esc.startswith('bg(') or esc.startswith('fg('):
+                        c = 4 if esc.startswith('bg(') else 3
+                        esc = esc[3 : -1]
+                        if esc == '':
+                            buf += '\033[%i9m' % c
+                        else:
+                            r, g, b = esc[1 : 3], esc[3 : 5], esc[5 : 7]
+                            r, g, b = int(r, 16), int(g, 16), int(b, 16)
+                            r, g, b = str(r), str(g), str(b)
+                            buf += '\033[%i8;2;%sm' % (c, ';'.join([r, g, b]))
+                    esc = None
+            elif c == '^':
+                esc = ''
+            else:
+                buf += c
+        text = buf
+        bar.invalidate()
+    
+    def update_per_clock():
+        for f in functions:
+            if isinstance(f, Clocked):
+                f(True)
+        bar.invalidate()
+    
+    async(lambda : forever(refresh))
+    async(lambda : clock_.continuous_sync(update_per_clock))
+
+
+def redraw():
+    global text
+    if semaphore.acquire(blocking = False):
+        try:
+            values = pattern % tuple([f() for f in functions])
+            bar.partial_clear(0, bar.width, 10, 0, 2, values)
+            bar.draw_coloured_splitted_text(0, bar.width, 10, 0, 2, values)
+        finally:
+            semaphore.release()
+        return True
+    return False
+
