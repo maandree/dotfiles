@@ -1,0 +1,43 @@
+#!/bin/bash
+set -e
+
+url="https://stallman.org/photos/index2.html"
+echo $'\e[01;34m'"$url"$'\e[00m'
+pics="$(wget "$url" -O -)"
+pics="$(echo "$pics" | grep -Po 'alt="[^"]+"' || true)" #'
+pics="$(echo "$pics" | sed -e 's:^alt="::g' -e 's:"$::g')"
+
+while read -r pic; do
+    if [ ! -f "$pic" ]; then
+	url="https://stallman.org/photos/$pic"
+	echo $'\e[01;34m  '"$url"$'\e[00m'
+	wget "$url" -O "$pic"
+    fi
+done <<< "$pics"
+
+url="https://stallman.org/photos/index.html"
+echo $'\e[01;34m'"$url"$'\e[00m'
+dirs="$(wget https://stallman.org/photos/index.html -O -)"
+dirs="$(echo "$dirs" | grep -Po 'href="[^"]+"')" #'
+dirs="$(echo "$dirs" | sed -e 's:^href="./::g' -e 's:/index.html"$::g')"
+dirs="$(echo "$dirs" | grep -v '^href=' | grep -v '.html')"
+
+while read -r dir; do
+    url="https://stallman.org/photos/$dir/index.html"
+    echo $'\e[01;34m  '"$url"$'\e[00m'
+    pics="$(wget "$url" -O -)"
+    pics="$(echo "$pics" | grep -Po 'alt="[^"]+"' || true)" #'
+    pics="$(echo "$pics" | sed -e 's:^alt="::g' -e 's:"$::g')"
+    
+    if [ -n "$(echo $pics)" ]; then
+	mkdir -p "$dir"
+	while read -r pic; do
+	    if [ ! -f "$dir/$pic" ]; then
+		url="https://stallman.org/photos/$dir/$pic"
+		echo $'\e[01;34m    '"$url"$'\e[00m'
+		wget "$url" -O "$dir/$pic"
+	    fi
+	done <<< "$pics"
+    fi
+done <<< "$dirs"
+
