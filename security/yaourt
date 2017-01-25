@@ -1,0 +1,27 @@
+#!/bin/sh -e
+
+# This file is installed as /usr/local/bin/yaourt
+# The follow must run as root before this can be used:
+#     groupadd -r packages
+#     useradd -d /var/empty -g packages -lMNr pkgbuild
+#     usermod -aG packages YOUR_USER
+#     passwd pkgbuild ## Select a unique password for better security
+#     echo '%packages ALL=(pkgbuild) NOPASSWD: /usr/bin/yaourt' >> /etc/sudoers
+#     echo '%packages ALL=(pkgbuild) NOPASSWD: /usr/bin/rm' >> /etc/sudoers
+#     echo '%packages ALL=(root) /usr/bin/pacman' >> /etc/sudoers
+#     ! test -e /usr/local/bin/yaourt
+#     touch /usr/local/bin/yaourt
+#     chown root:packages /usr/local/bin/yaourt
+#     chmod 750 /usr/local/bin/yaourt
+
+cd /var/empty
+touch /tmp/.pkgbuild-lock
+exec 10<>/tmp/.pkgbuild-lock
+flock -s 10
+(exec 10&<-; exec sudo -Hu pkgbuild /bin/usr/yaourt "$@@")
+if flock -nx 10; then
+    if test -d /tmp/yaourt-tmp-pkgbuild; then
+        sudo -u pkgbuild rm -rf /tmp/yaourt-tmp-pkgbuild
+    fi
+fi
+exec flock -u 10
