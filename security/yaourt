@@ -9,10 +9,6 @@
 #     echo '%packages ALL=(pkgbuild) NOPASSWD: /usr/bin/yaourt' >> /etc/sudoers
 #     echo '%packages ALL=(pkgbuild) NOPASSWD: /usr/bin/rm' >> /etc/sudoers
 #     echo '%packages ALL=(root) /usr/bin/pacman' >> /etc/sudoers
-#     ! test -e /usr/local/bin/yaourt
-#     touch /usr/local/bin/yaourt
-#     chown root:packages /usr/local/bin/yaourt
-#     chmod 750 /usr/local/bin/yaourt
 
 cd /var/empty
 touch /tmp/.pkgbuild-lock
